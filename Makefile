@@ -6,7 +6,7 @@
 #    By: carmeno <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/13 03:06:23 by carmeno           #+#    #+#              #
-#    Updated: 2023/12/16 13:25:14 by deordone         ###   ########.fr        #
+#    Updated: 2023/12/16 13:41:50 by deordone         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,12 +25,11 @@
 NAME = pipex
 
 SOURCES = pipex.c ft_extractor.c
-
 SRC_LIBFT = libft/libft.a
+OBJECTS = $(addprefix obj/, ${SOURCES:.c=.o})
+DEPS = $(SRC:.c=.d)
 
 HEADER = include/pipex.h
-
-OBJECTS = $(addprefix obj/, ${SOURCES:.c=.o})
 
 CC = cc
 
@@ -46,9 +45,10 @@ all: header make_lib $(NAME)
 make_lib: 
 	$(MAKE_LIBFT) 
 
+-include $(DEPS)
 $(NAME): compiled_libft $(OBJECTS) $(SRC_LIBFT)
 		@printf "$(GREEN)";  
-		$(CC) $(CFLAGS) $(OBJECTS) $(SRC_LIBFT) -o $(NAME)
+		$(CC) $(CFLAGS) $(OBJECTS) $(SRC_LIBFT) -o $(NAME) 
 
 obj/%.o: src/%.c $(HEADER) Makefile
 		@printf "$(GREEN)";  
@@ -57,6 +57,7 @@ obj/%.o: src/%.c $(HEADER) Makefile
 
 clean: ok
 	rm -rf obj 
+	rm -f $(DEPS)
 	$(MAKE_LIBFT) clean
 
 fclean : ok clean

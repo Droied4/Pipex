@@ -6,7 +6,7 @@
 /*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/16 12:31:30 by deordone          #+#    #+#             */
-/*   Updated: 2023/12/16 13:10:52 by deordone         ###   ########.fr       */
+/*   Updated: 2023/12/16 17:11:14 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,8 @@ int	ft_ffile2fd(char **argv)
 	}
 	else 
 		return (-1);
-	fd = open(infile, O_RDONLY | O_CREAT);
+	fd = open("infile", O_RDONLY | O_CREAT);
+	close(fd);
 	return (fd);
 }
 
