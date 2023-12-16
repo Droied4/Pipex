@@ -1,23 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.c                                            :+:      :+:    :+:   */
+/*   ft_lstiter_bonus.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/16 12:29:46 by deordone          #+#    #+#             */
-/*   Updated: 2023/12/16 13:09:10 by deordone         ###   ########.fr       */
+/*   Created: 2023/10/02 21:19:56 by deordone          #+#    #+#             */
+/*   Updated: 2023/10/02 21:39:08 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
+#include "libft.h"
 
-int main (int argc, char **argv)
+void	ft_lstiter(t_list *lst, void (*f)(void *))
 {
-	int fd1;
-
-	if (argc < 5)
-		exit(1);
-	fd1 = ft_ffile2fd(argv);
-	return (0);
+	if (!lst && !f)
+		return ;
+	while (lst)
+	{
+		f(lst->content);
+		lst = lst->next;
+	}
 }

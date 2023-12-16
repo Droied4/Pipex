@@ -1,23 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.c                                            :+:      :+:    :+:   */
+/*   ft_memcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/16 12:29:46 by deordone          #+#    #+#             */
-/*   Updated: 2023/12/16 13:09:10 by deordone         ###   ########.fr       */
+/*   Created: 2023/09/10 12:44:40 by deordone          #+#    #+#             */
+/*   Updated: 2023/11/09 13:28:58 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
+#include <stdio.h>
 
-int main (int argc, char **argv)
+int	ft_memcmp(const void *s1, const void *s2, size_t n)
 {
-	int fd1;
+	unsigned char	*str1;
+	unsigned char	*str2;
+	size_t			i;
 
-	if (argc < 5)
-		exit(1);
-	fd1 = ft_ffile2fd(argv);
+	str1 = (unsigned char *)s1;
+	str2 = (unsigned char *)s2;
+	i = -1;
+	while (++i < n)
+	{
+		if (str1[i] != str2[i])
+			return (str1[i] - str2[i]);
+	}
 	return (0);
 }

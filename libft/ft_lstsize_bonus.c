@@ -1,23 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.c                                            :+:      :+:    :+:   */
+/*   ft_lstsize.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/16 12:29:46 by deordone          #+#    #+#             */
-/*   Updated: 2023/12/16 13:09:10 by deordone         ###   ########.fr       */
+/*   Created: 2023/09/28 21:12:13 by deordone          #+#    #+#             */
+/*   Updated: 2023/09/29 20:05:50 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
+#include "libft.h"
 
-int main (int argc, char **argv)
+int	ft_lstsize(t_list *lst)
 {
-	int fd1;
+	int		i;
+	t_list	*temp;
 
-	if (argc < 5)
-		exit(1);
-	fd1 = ft_ffile2fd(argv);
-	return (0);
+	i = 0;
+	temp = lst;
+	while (temp != NULL)
+	{
+		i++;
+		temp = temp->next;
+	}
+	return (i);
 }

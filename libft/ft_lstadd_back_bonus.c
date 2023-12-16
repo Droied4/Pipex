@@ -1,23 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.c                                            :+:      :+:    :+:   */
+/*   ft_lstadd_back_bonus.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/16 12:29:46 by deordone          #+#    #+#             */
-/*   Updated: 2023/12/16 13:09:10 by deordone         ###   ########.fr       */
+/*   Created: 2023/09/29 20:06:41 by deordone          #+#    #+#             */
+/*   Updated: 2023/10/02 16:10:48 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
+#include "libft.h"
 
-int main (int argc, char **argv)
+void	ft_lstadd_back(t_list **lst, t_list *new)
 {
-	int fd1;
+	t_list	*temp;
 
-	if (argc < 5)
-		exit(1);
-	fd1 = ft_ffile2fd(argv);
-	return (0);
+	if (lst)
+	{
+		if (*lst == NULL)
+			*lst = new;
+		else
+		{
+			temp = ft_lstlast(*lst);
+			temp->next = new;
+		}
+	}
 }

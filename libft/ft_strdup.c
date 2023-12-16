@@ -1,23 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.c                                            :+:      :+:    :+:   */
+/*   ft_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/16 12:29:46 by deordone          #+#    #+#             */
-/*   Updated: 2023/12/16 13:09:10 by deordone         ###   ########.fr       */
+/*   Created: 2023/09/12 13:57:43 by deordone          #+#    #+#             */
+/*   Updated: 2023/11/09 13:31:02 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
+#include <stdlib.h>
 
-int main (int argc, char **argv)
+char	*ft_strdup(const char *s1)
 {
-	int fd1;
+	int		i;
+	int		i2;
+	char	*ptr;
 
-	if (argc < 5)
-		exit(1);
-	fd1 = ft_ffile2fd(argv);
-	return (0);
+	i2 = 0;
+	while (s1[i2])
+		++i2;
+	ptr = malloc(sizeof(char) * (i2 + 1));
+	if (!ptr)
+		return (NULL);
+	i = -1;
+	while (s1[++i])
+		ptr[i] = s1[i];
+	ptr[i] = '\0';
+	return (ptr);
 }

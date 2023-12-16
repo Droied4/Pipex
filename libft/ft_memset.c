@@ -1,23 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.c                                            :+:      :+:    :+:   */
+/*   ft_memset.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/16 12:29:46 by deordone          #+#    #+#             */
-/*   Updated: 2023/12/16 13:09:10 by deordone         ###   ########.fr       */
+/*   Created: 2023/09/07 17:37:39 by deordone          #+#    #+#             */
+/*   Updated: 2023/11/09 13:05:02 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
+#include <stdio.h>
 
-int main (int argc, char **argv)
+void	*ft_memset(void *str, int c, size_t len)
 {
-	int fd1;
+	int		i;
+	char	*s;
 
-	if (argc < 5)
-		exit(1);
-	fd1 = ft_ffile2fd(argv);
-	return (0);
+	i = 0;
+	s = (char *)str;
+	while (i < (int) len)
+		s[i++] = c;
+	return ((char *)str);
 }
+/*
+int	main(void)
+{
+	char str3[] = "hola";
+
+	ft_memset(str3, 'a', 2);
+	return (0);
+}*/

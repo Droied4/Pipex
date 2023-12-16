@@ -1,23 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.c                                            :+:      :+:    :+:   */
+/*   ft_memchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/16 12:29:46 by deordone          #+#    #+#             */
-/*   Updated: 2023/12/16 13:09:10 by deordone         ###   ########.fr       */
+/*   Created: 2023/09/10 12:22:53 by deordone          #+#    #+#             */
+/*   Updated: 2023/11/09 13:28:31 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
+#include <stdio.h>
 
-int main (int argc, char **argv)
+void	*ft_memchr(const void *s, int c, size_t n)
 {
-	int fd1;
+	size_t			i;
+	unsigned char	*str;
+	unsigned char	character;
 
-	if (argc < 5)
-		exit(1);
-	fd1 = ft_ffile2fd(argv);
-	return (0);
+	i = 0;
+	str = (unsigned char *)s;
+	character = (unsigned char)c;
+	while (i < n)
+	{
+		if (*str == character)
+			return (str);
+		i++;
+		str++;
+	}
+	return (NULL);
 }

@@ -6,7 +6,7 @@
 #    By: carmeno <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/13 03:06:23 by carmeno           #+#    #+#              #
-#    Updated: 2023/12/13 03:07:28 by carmeno          ###   ########.fr        #
+#    Updated: 2023/12/16 13:25:14 by deordone         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,22 +24,31 @@
 
 NAME = pipex
 
-SOURCES = pipex.c
-		  
-HEADER = include/pipex.h
+SOURCES = pipex.c ft_extractor.c
 
-BINDIR = bin
+SRC_LIBFT = libft/libft.a
+
+HEADER = include/pipex.h
 
 OBJECTS = $(addprefix obj/, ${SOURCES:.c=.o})
 
 CC = cc
+
 CFLAGS = -Wall -Wextra -Werror -Iinclude
 
-all: header $(NAME)
+MAKE_LIBFT = make -C libft
 
-$(NAME): $(OBJECTS)
+%.o: %.c Makefile
+	$(CC) $(CFLAGS) -c $< -o $@
+
+all: header make_lib $(NAME)
+
+make_lib: 
+	$(MAKE_LIBFT) 
+
+$(NAME): compiled_libft $(OBJECTS) $(SRC_LIBFT)
 		@printf "$(GREEN)";  
-		$(CC) $(CFLAGS) $(OBJECTS) -o $(NAME)
+		$(CC) $(CFLAGS) $(OBJECTS) $(SRC_LIBFT) -o $(NAME)
 
 obj/%.o: src/%.c $(HEADER) Makefile
 		@printf "$(GREEN)";  
@@ -47,10 +56,12 @@ obj/%.o: src/%.c $(HEADER) Makefile
 		$(CC) $(CFLAGS) -c $< -o $@
 
 clean: ok
-	rm -rf obj
+	rm -rf obj 
+	$(MAKE_LIBFT) clean
 
 fclean : ok clean
 		rm -rf $(NAME)
+		$(MAKE_LIBFT) fclean
 
 re: fclean all 
 
@@ -63,7 +74,8 @@ WHITE=\033[0;97m
 BLUE=\033[0;34m
 NC=\033[0m # No color
 
-header: marc
+header: 
+	@echo
 	@printf "$(RED)		  ══════════════════════════「₪」══════════════════════════\n";
 	@echo
 	@printf "     	          $(YELLOW)                      ▒▒▒▒▒▒▒▒▒   ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒\n";
@@ -82,7 +94,7 @@ header: marc
 	@printf "	    	         ░░░░░  $(BLUE) ░░░░░░░$(YELLOW) ▒▒▒▒▒▒▒▒      ╰┈➤Pipex \n";
 	@printf "	     	          ░░░░░ $(BLUE) ░ ░ ░ ░$(YELLOW) ▒▒▒▒▒▒▒▒$(NC)\n";
 	@echo
-	@printf "$(RED)		  ══════════════════════════「₪」══════════════════════════\n";
+	@printf "$(RED)		  ══════════════════════════「₪」══════════════════════════$(GREEN)\n";
 	@echo
  
 help: 
@@ -102,9 +114,10 @@ author:
 	@printf "$(RED)		  ══════════════════════════「₪」══════════════════════════\n";
 	@printf "$(CYAN)		        	https://github.com/Droied4 \n";
 
-marc: 
-	@printf "\n";
-
+compiled_libft: 
+	@echo
+	@printf "$(RED)		  ══════════════════════════「LIBFT ₪ COMPILED」══════════════════════════\n";
+	@echo
 
 ok:
 	@printf "\n"; 
