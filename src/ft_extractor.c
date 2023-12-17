@@ -6,7 +6,7 @@
 /*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/16 12:31:30 by deordone          #+#    #+#             */
-/*   Updated: 2023/12/16 17:11:14 by deordone         ###   ########.fr       */
+/*   Updated: 2023/12/17 14:35:57 by carmeno          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 int	ft_ffile2fd(char **argv)
 {
-	char *infile;
-	int	size;
-	int fd;
+	char	*infile;
+	int		size;
+	int		fd;
 
 	if (argv[1][0])
 	{
@@ -26,11 +26,30 @@ int	ft_ffile2fd(char **argv)
 			return (-1);
 		ft_strlcpy(infile, argv[1], size);
 	}
-	else 
+	else
 		return (-1);
-	fd = open("infile", O_RDONLY | O_CREAT);
+	fd = open(argv[1], O_RDONLY | O_CREAT);
 	close(fd);
 	return (fd);
 }
 
-int	ft_lfile2fd(char **argv);
+int	ft_lfile2fd(int argc, char **argv)
+{
+	char		*outfile;
+	int		size;
+	int		fd;
+
+	if (argv[argc - 1][0])
+	{
+		size = ft_strlen(argv[argc - 1]);
+		outfile = malloc(sizeof(char) * size + 1);
+		if (!outfile)
+			return (-1);
+		ft_strlcpy(outfile, argv[argc - 1], size);
+	}
+	else
+		return (-1);
+	fd = open(argv[argc - 1], O_RDONLY | O_CREAT);
+	close(fd);
+	return (fd);
+}

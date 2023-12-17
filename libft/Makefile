@@ -6,7 +6,7 @@
 #    By: deordone <deordone@student.42barcel>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/07 14:04:54 by deordone          #+#    #+#              #
-#    Updated: 2023/10/14 19:38:14 by deordone         ###   ########.fr        #
+#    Updated: 2023/12/17 14:23:43 by carmeno          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -45,7 +45,7 @@ $(NAME): $(OBJECTS)
 bonus: .bonus
 
 %.o: %.c $(HEADER) Makefile
-	$(CC) $(CFLAGS) $(INCLUDE)$(HEADER) -c $< -o $@
+	$(CC) $(CFLAGS) $(INCLUDE)/$(HEADER) -c $< -o $@
 
 clean:
 	rm -f $(OBJECTS) $(BOBJECTS)

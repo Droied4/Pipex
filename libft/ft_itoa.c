@@ -6,7 +6,7 @@
 /*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/26 11:50:03 by deordone          #+#    #+#             */
-/*   Updated: 2023/10/13 19:13:30 by deordone         ###   ########.fr       */
+/*   Updated: 2023/12/17 14:28:07 by carmeno          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ char	*isnegative(char *str_num, int n, int digits)
 
 char	*loop(char *str_num, int n, size_t digits, int nkeep)
 {
-	while (digits >= 0)
+	while (n != 0)
 	{
 		nkeep = nkeep / 10;
 		n = n % 10 + '0';
