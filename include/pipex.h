@@ -6,7 +6,7 @@
 /*   By: carmeno <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/13 03:08:12 by carmeno           #+#    #+#             */
-/*   Updated: 2023/12/18 17:53:09 by carmeno          ###   ########.fr       */
+/*   Updated: 2023/12/18 23:10:44 by carmeno          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ typedef struct s_pipe
 {
 	int		f_fd;
 	int		l_fd;
+	char		*f_file;
+	char		*l_file;
 	char		*in_path;
 	char		*out_path;
 	char		**in_cmd;
@@ -35,13 +37,15 @@ typedef struct s_pipe
    ╚═══════════════════════════════════════════════════════╝	*/
 
 void		ft_print_info(t_pipe *info);
+void		ft_init_info(t_pipe *info);
+void		ft_extractor(int argc, char **argv, t_pipe *info);
 
 /* ╔═══════════════════════════════════════════════════════╗
  * 			 ❖ ❖ ❖  UTILS  ❖ ❖ ❖
    ╚═══════════════════════════════════════════════════════╝	*/
 
-void		ft_init_info(t_pipe *info);
-void		ft_extractor(int argc, char **argv, t_pipe *info);
+void		ft_finit_exec(t_pipe *info, char **argv);
+void		ft_linit_exec(t_pipe *info, char **argv);
 char		*ft_path_in(t_pipe *info);
 char		*ft_path_out(t_pipe *info);
 /* ╔═══════════════════════════════════════════════════════╗

@@ -6,32 +6,36 @@
 /*   By: carmeno <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 14:59:31 by carmeno           #+#    #+#             */
-/*   Updated: 2023/12/18 18:03:52 by carmeno          ###   ########.fr       */
+/*   Updated: 2023/12/18 23:08:55 by carmeno          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-void    ft_init_info(t_pipe *info)
+void	ft_finit_exec(t_pipe *info, char **argv)
 {
-        info->f_fd = -1;
-        info->l_fd = -1;
-        info->in_path = NULL;
-	info->out_path = NULL;
-        info->in_cmd = NULL;
-        info->out_cmd = NULL;
+	char *new_cmd;
+
+	if(dup2(info->f_fd,0) == -1)
+		ft_error(info);
+	close(info->f_fd);
+	new_cmd = ft_strjoin(" ", info->f_file);
+	new_cmd = ft_strjoin(argv[2], new_cmd);
+	info->in_cmd = ft_split(new_cmd, ' ');
+	execve(info->in_path, info->in_cmd, NULL);
 }
 
-void    ft_extractor(int argc, char **argv, t_pipe *info)
+void	ft_linit_exec(t_pipe *info, char **argv)
 {
-        info->f_fd = open(argv[1], O_RDONLY);
-        info->l_fd = open(argv[argc - 1], O_RDONLY);
-        if ((info->f_fd == -1) | (info->l_fd == -1))
-                ft_error(info);
-	info->in_cmd = ft_split(argv[2], ' ');
-        info->out_cmd = ft_split(argv[3], ' ');
-	info->in_path = ft_path_in(info);
-	info->out_path = ft_path_out(info);
+	char *new_cmd;
+
+	if(dup2(info->l_fd,0) == -1)
+		ft_error(info);
+	close(info->l_fd);
+	new_cmd = ft_strjoin(" ", info->l_file);
+	new_cmd = ft_strjoin(argv[3], new_cmd);
+	info->out_cmd = ft_split(new_cmd, ' ');
+	execve(info->out_path, info->out_cmd, NULL);
 }
 
 char	*ft_path_in(t_pipe *info)
