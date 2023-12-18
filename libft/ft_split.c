@@ -6,13 +6,13 @@
 /*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/20 17:50:02 by deordone          #+#    #+#             */
-/*   Updated: 2023/10/07 12:35:08 by deordone         ###   ########.fr       */
+/*   Updated: 2023/12/18 16:24:23 by carmeno          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_howmwords(const char *s, char c)
+static int	ft_howmwords(const char *s, char c)
 {
 	int		i;
 	int		word;
@@ -35,7 +35,7 @@ int	ft_howmwords(const char *s, char c)
 	return (word);
 }
 
-void	ft_free_array(char **res, int i)
+static void	ft_free_array(char **res, int i)
 {
 	while (i--)
 	{
@@ -44,7 +44,7 @@ void	ft_free_array(char **res, int i)
 	free(res);
 }
 
-char	**ft_create(char const *s, char c, char **res)
+static char	**ft_create(char const *s, char c, char **res)
 {
 	int	i;
 	int	j;

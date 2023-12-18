@@ -6,7 +6,7 @@
 /*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/16 12:29:46 by deordone          #+#    #+#             */
-/*   Updated: 2023/12/18 16:05:49 by carmeno          ###   ########.fr       */
+/*   Updated: 2023/12/18 16:26:58 by carmeno          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,10 @@ void	ft_print_info(t_pipe *info)
 
 void	ft_extractor(int argc, char **argv, t_pipe *info)
 {
-	info->f_fd = open(argv[1], O_RDONLY | O_CREAT);
-	info->l_fd = open(argv[argc - 1], O_RDONLY | O_CREAT);
+	info->f_fd = open(argv[1], O_RDONLY);
+	info->l_fd = open(argv[argc - 1], O_RDONLY);
+	if ((info->f_fd == -1) | (info->l_fd == -1))
+		ft_error();
 	info->in_cmd = ft_split(argv[2], ' ');
 	info->out_cmd = ft_split(argv[3], ' ');
 	//buscar dentro den /bin/ el comando de in
@@ -38,7 +40,6 @@ int main (int argc, char **argv)
 	ft_init_info(&info);
 	ft_extractor(argc, argv, &info);
 	ft_print_info(&info);
-	close(info.f_fd);
-	close(info.l_fd);
+	ft_end(&info);
 	return (0);
 }
