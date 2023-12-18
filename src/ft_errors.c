@@ -6,7 +6,7 @@
 /*   By: carmeno <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 14:59:11 by carmeno           #+#    #+#             */
-/*   Updated: 2023/12/18 16:37:44 by carmeno          ###   ########.fr       */
+/*   Updated: 2023/12/18 17:52:45 by carmeno          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,26 @@ void	ft_end(t_pipe *info)
 {
 	close(info->f_fd);
 	ft_free_array(info->in_cmd);
+	free(info->in_path);
+	free(info->out_path);
 	ft_free_array(info->out_cmd);
 	close(info->l_fd);
 }
 
-void	ft_error(void)
+void	ft_error(t_pipe	*info)
 {
+	if (info->f_fd != -1)
+		close(info->f_fd);
+	if (info->l_fd != -1)
+		close(info->l_fd);
+	if (info->in_cmd != NULL)
+		ft_free_array(info->in_cmd);
+	if (info->out_cmd != NULL)
+		ft_free_array(info->out_cmd);
+	if (info->in_path != NULL)
+		free(info->in_path);
+	if (info->out_path != NULL)
+		free(info->out_path);
 	write(1, "Error\n", 6);
 	exit(1);
 }
