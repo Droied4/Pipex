@@ -6,7 +6,7 @@
 /*   By: carmeno <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/13 03:08:12 by carmeno           #+#    #+#             */
-/*   Updated: 2023/12/17 14:36:12 by carmeno          ###   ########.fr       */
+/*   Updated: 2023/12/18 13:45:01 by carmeno          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,15 @@
 #include <errno.h>
 #include <fcntl.h>
 #include "../libft/libft.h"
+
+typedef struct s_pipe
+{
+	int	f_fd;
+	int	l_fd;
+	char	*path;
+	char	**argv;
+	char	**env;
+} t_pipe;
 
 /* ╔═══════════════════════════════════════════════════════╗
  * 		  			 ❖ ❖ ❖  MAIN  ❖ ❖ ❖ 
