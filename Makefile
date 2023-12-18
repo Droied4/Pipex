@@ -11,7 +11,7 @@
 
 NAME = pipex
 
-SOURCES = pipex.c ft_extractor.c
+SOURCES = pipex.c ft_errors.c ft_utils.c
 SRC_LIBFT = libft/libft.a
 OBJECTS = $(addprefix obj/, ${SOURCES:.c=.o})
 DEPS = $(SRC:.c=.d)
