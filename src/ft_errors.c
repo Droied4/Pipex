@@ -6,7 +6,7 @@
 /*   By: carmeno <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 14:59:11 by carmeno           #+#    #+#             */
-/*   Updated: 2023/12/18 17:52:45 by carmeno          ###   ########.fr       */
+/*   Updated: 2023/12/19 11:26:47 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,10 @@ void	ft_error(t_pipe	*info)
 		close(info->f_fd);
 	if (info->l_fd != -1)
 		close(info->l_fd);
+	if (info->f_file != NULL)
+		free(info->f_file);
+	if (info->l_file != NULL)
+		free(info->l_file);
 	if (info->in_cmd != NULL)
 		ft_free_array(info->in_cmd);
 	if (info->out_cmd != NULL)

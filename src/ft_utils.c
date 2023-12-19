@@ -6,7 +6,7 @@
 /*   By: carmeno <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 14:59:31 by carmeno           #+#    #+#             */
-/*   Updated: 2023/12/18 23:08:55 by carmeno          ###   ########.fr       */
+/*   Updated: 2023/12/19 11:24:24 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,14 @@ char	*ft_path_in(t_pipe *info)
 	new_path = malloc(sizeof(char) * i + 10);
 	if (new_path == NULL)
 		ft_error(info);
-	ft_strlcpy(new_path, "/usr/bin/", i + 10);
-	ft_strlcat(new_path, info->in_cmd[0], i + 10);
+#ifdef __linux__
+	i += 10;
+	ft_strlcpy(new_path, "/usr/bin/", i);
+#elif __APPLE__
+	i += 6;
+	ft_strlcpy(new_path, "/bin/", i);
+#endif
+	ft_strlcat(new_path, info->in_cmd[0], i);
 	return (new_path);
 }
 
@@ -65,7 +71,13 @@ char	*ft_path_out(t_pipe *info)
 	new_path = malloc(sizeof(char) * i + 10);
 	if (new_path == NULL)
 		ft_error(info);
-	ft_strlcpy(new_path, "/usr/bin/", i + 10);
-	ft_strlcat(new_path, info->out_cmd[0], i + 10);
+#ifdef __linux__
+	i += 10;
+	ft_strlcpy(new_path, "/usr/bin/", i);
+#elif __APPLE__
+	i += 6;
+	ft_strlcpy(new_path, "/bin/", i);
+#endif
+	ft_strlcat(new_path, info->out_cmd[0], i);
 	return (new_path);
 }
