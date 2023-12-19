@@ -6,7 +6,7 @@
 /*   By: carmeno <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 14:59:31 by carmeno           #+#    #+#             */
-/*   Updated: 2023/12/19 16:49:44 by deordone         ###   ########.fr       */
+/*   Updated: 2023/12/19 18:25:05 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,32 +37,24 @@ void	ft_vortex(t_pipe *info)
 		close(pipefd[0]);
 		dup2(pipefd[1], STDOUT_FILENO);
 		close(pipefd[1]);
-		execve(info->in_path, info->in_cmd, NULL);
+		if(execve(info->in_path, info->in_cmd, NULL))
+			ft_error(info);
 		exit(EXIT_FAILURE);
 	}
 	else //child procces
 	{
+		if (dup2(info->l_fd, STDOUT_FILENO) == -1)
+			ft_error(info);
+		close(info->l_fd);
 		close(pipefd[1]);
 		dup2(pipefd[0], STDIN_FILENO);
 		close(pipefd[0]);
-		execve(info->out_path, info->out_cmd, NULL);
+		if (execve(info->out_path, info->out_cmd, NULL))
+			ft_error(info);
 		exit(EXIT_FAILURE);
 	}
 }
-/* si no lo usas comentalo pendejo hermoso
-void	ft_finit_exec(t_pipe *info, char **argv)
-{
-	char *new_cmd;
 
-	if(dup2(info->f_fd,0) == -1)
-		ft_error(info);
-	close(info->f_fd);
-	new_cmd = ft_strjoin(" ", info->f_file);
-	new_cmd = ft_strjoin(argv[3], new_cmd);
-	info->in_cmd = ft_split(new_cmd, ' ');
-	execve(info->in_path, info->in_cmd, NULL);
-}
-*/
 char	*ft_path_in(t_pipe *info)
 {
 	char *new_path;
