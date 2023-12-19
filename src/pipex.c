@@ -6,7 +6,7 @@
 /*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/16 12:29:46 by deordone          #+#    #+#             */
-/*   Updated: 2023/12/19 11:25:47 by deordone         ###   ########.fr       */
+/*   Updated: 2023/12/19 16:49:42 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	ft_extractor(int argc, char **argv, t_pipe *info)
 	info->f_file = argv[1];
 	info->l_file = argv[argc - 1];
 	info->f_fd = open(info->f_file, O_RDONLY);
-	info->l_fd = open(info->l_file, O_RDONLY);
+	info->l_fd = open(info->l_file, O_RDONLY | O_CREAT);
 	if ((info->f_fd == -1) | (info->l_fd == -1))
 		ft_error(info);
 	info->in_cmd = ft_split(argv[2], ' ');
@@ -61,11 +61,8 @@ int	main(int argc, char **argv)
 	ft_init_info(&info);
 	ft_extractor(argc, argv, &info);
 	ft_print_info(&info);
-	ft_finit_exec(&info, argv);
-	/* Mensaje para el futuro deivid,
-		esta funcion comentada creo que no la voy a tener que utilizar,
-		al parecer tengo que crear una funcion que permita la comunicacion entre procesos en el que el proceso padre le pase al hijo el resultado de la ejecucion de la funcion de arriba y el proceso hijo tome esa ejecucion y la lea esto se hara con fork() y pipe() mucha suerte soldado!
-	ft_li+nit_exec(&info, argv);*/
+	info.in_cmd  = ft_config_cmd(argv[2], info.f_file, info.in_cmd);
+	ft_vortex(&info);
 	ft_end(&info);
 	return (0);
 }
