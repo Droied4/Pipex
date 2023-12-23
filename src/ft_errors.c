@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_errors.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: carmeno <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/18 14:59:11 by carmeno           #+#    #+#             */
-/*   Updated: 2023/12/19 18:11:26 by deordone         ###   ########.fr       */
+/*   Created: 2023/12/22 16:30:08 by deordone          #+#    #+#             */
+/*   Updated: 2023/12/22 17:07:30 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,16 +22,21 @@ void	ft_end(t_pipe *info)
 	close(info->l_fd);
 }
 
-void	ft_error(t_pipe	*info)
+void	ft_error(t_pipe *info, const char *message)
+{
+	ft_clean(info);
+	if (write(1, "pipex: ", 7) == -1)
+		exit(1);
+	perror(message);
+	exit(errno);
+}
+
+void ft_clean(t_pipe *info)
 {
 	if (info->f_fd != -1)
 		close(info->f_fd);
 	if (info->l_fd != -1)
 		close(info->l_fd);
-	if (info->f_file != NULL)
-		free(info->f_file);
-	if (info->l_file != NULL)
-		free(info->l_file);
 	if (info->in_cmd != NULL)
 		ft_free_array(info->in_cmd);
 	if (info->out_cmd != NULL)
@@ -40,16 +45,14 @@ void	ft_error(t_pipe	*info)
 		free(info->in_path);
 	if (info->out_path != NULL)
 		free(info->out_path);
-	write(1, "Error\n", 6);
-	exit(1);
 }
 
 void	ft_free_array(char **res)
 {
-	int i;
+	int	i;
 
 	i = 0;
-	while(res[i])
+	while (res[i])
 		i++;
 	while (i)
 		free(res[i--]);

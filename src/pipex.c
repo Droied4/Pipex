@@ -6,7 +6,7 @@
 /*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/16 12:29:46 by deordone          #+#    #+#             */
-/*   Updated: 2023/12/19 18:29:12 by deordone         ###   ########.fr       */
+/*   Updated: 2023/12/23 03:59:51 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,13 +43,16 @@ void	ft_extractor(int argc, char **argv, t_pipe *info)
 	info->f_file = argv[1];
 	info->l_file = argv[argc - 1];
 	info->f_fd = open(info->f_file, O_RDONLY);
-	info->l_fd = open(info->l_file, O_WRONLY | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR);
-	if ((info->f_fd == -1) | (info->l_fd == -1))
-		ft_error(info);
+	if (info->f_fd == -1)
+		ft_error(info, info->f_file);
+	info->l_fd = open(info->l_file, O_WRONLY | O_CREAT | O_TRUNC,
+			S_IRUSR | S_IWUSR);
+	if (info->l_fd == -1)
+		ft_error(info, "permission dennied: ");
+	info->in_path = argv[2];
+	info->out_path = argv[3];
 	info->in_cmd = ft_split(argv[2], ' ');
 	info->out_cmd = ft_split(argv[3], ' ');
-	info->in_path = ft_path_in(info);
-	info->out_path = ft_path_out(info);
 }
 
 int	main(int argc, char **argv)
@@ -57,12 +60,15 @@ int	main(int argc, char **argv)
 	t_pipe	info;
 
 	if (argc < 5)
-		exit(1);
+	{
+		perror("to less arguments");
+		return (errno);
+	}
 	ft_init_info(&info);
 	ft_extractor(argc, argv, &info);
 	ft_print_info(&info);
-	info.in_cmd  = ft_config_cmd(argv[2], info.f_file, info.in_cmd);
+	info.in_cmd = ft_config_cmd(argv[2], info.f_file, info.in_cmd);
 	ft_vortex(&info);
-	//ft_end(&info);
+	ft_end(&info);
 	return (0);
 }
