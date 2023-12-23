@@ -6,7 +6,7 @@
 /*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/22 16:30:23 by deordone          #+#    #+#             */
-/*   Updated: 2023/12/23 04:01:31 by deordone         ###   ########.fr       */
+/*   Updated: 2023/12/23 11:42:15 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	ft_vortex(t_pipe *info)
 		if (execve(info->in_path, info->in_cmd, NULL) == -1)
 		{
 			if (ft_find_path(info->in_cmd) == 0)
-				exit(EXIT_FAILURE);
+				exit(EXIT_SUCCESS);
 			else
 				ft_error(info, "command not found");
 		}
@@ -58,7 +58,7 @@ void	ft_vortex(t_pipe *info)
 		if (execve(info->out_path, info->out_cmd, NULL) == -1)
 		{
 			if (ft_find_path(info->out_cmd) == 0)
-				exit(EXIT_FAILURE);
+				exit(EXIT_SUCCESS);
 			else
 				ft_error(info, "command not found");
 		}

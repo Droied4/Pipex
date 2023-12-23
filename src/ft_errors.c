@@ -6,7 +6,7 @@
 /*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/22 16:30:08 by deordone          #+#    #+#             */
-/*   Updated: 2023/12/22 17:07:30 by deordone         ###   ########.fr       */
+/*   Updated: 2023/12/23 11:44:37 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ void	ft_error(t_pipe *info, const char *message)
 	if (write(1, "pipex: ", 7) == -1)
 		exit(1);
 	perror(message);
+	//system para ver los leaks system("leaks pipex");
 	exit(errno);
 }
 
