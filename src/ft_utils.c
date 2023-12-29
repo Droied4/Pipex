@@ -6,7 +6,7 @@
 /*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/22 16:30:23 by deordone          #+#    #+#             */
-/*   Updated: 2023/12/23 11:42:15 by deordone         ###   ########.fr       */
+/*   Updated: 2023/12/29 17:41:18 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 char	**ft_config_cmd(char *argv, char *file, char **cmd)
 {
 	char	*new_cmd;
-
+	
 	new_cmd = ft_strjoin(" ", file);
 	new_cmd = ft_strjoin(argv, new_cmd);
 	cmd = ft_split(new_cmd, ' ');
@@ -95,47 +95,3 @@ int	ft_find_path(char **arg_cmd)
 	}
 	return (1);
 }
-/*
-char	*ft_path_in(t_pipe *info)
-{
-	char	*new_path;
-	int		i;
-
-	i = 0;
-	while (info->in_cmd[0][i] != '\0')
-		i++;
-	new_path = malloc(sizeof(char) * i + 10);
-	if (new_path == NULL)
-		ft_error(info, "malloc failed");
-#ifdef __LINUX__
-	i += 10;
-	ft_strlcpy(new_path, "/usr/bin/", i);
-#elif __APPLE__
-	i += 6;
-	ft_strlcpy(new_path, "/bin/", i);
-#endif
-	ft_strlcat(new_path, info->in_cmd[0], i);
-	return (new_path);
-}
-
-char	*ft_path_out(t_pipe *info)
-{
-	char	*new_path;
-	int		i;
-
-	i = 0;
-	while (info->out_cmd[0][i] != '\0')
-		i++;
-	new_path = malloc(sizeof(char) * i + 10);
-	if (new_path == NULL)
-		ft_error(info, "malloc failed");
-#ifdef __LINUX__
-	i += 10;
-	ft_strlcpy(new_path, "/usr/bin/", i);
-#elif __APPLE__
-	i += 6;
-	ft_strlcpy(new_path, "/bin/", i);
-#endif
-	ft_strlcat(new_path, info->out_cmd[0], i);
-	return (new_path);
-}*/
