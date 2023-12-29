@@ -6,19 +6,21 @@
 /*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/22 16:30:23 by deordone          #+#    #+#             */
-/*   Updated: 2023/12/29 17:41:18 by deordone         ###   ########.fr       */
+/*   Updated: 2023/12/29 21:29:21 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-char	**ft_config_cmd(char *argv, char *file, char **cmd)
+
+//char	**ft_config_cmd(char *argv, char *file, char **cmd)
+char	**ft_config_cmd(char *argv, char **cmd)
 {
-	char	*new_cmd;
+//	char	*new_cmd;
 	
-	new_cmd = ft_strjoin(" ", file);
-	new_cmd = ft_strjoin(argv, new_cmd);
-	cmd = ft_split(new_cmd, ' ');
+	//new_cmd = ft_strjoin(" ", file);
+//	new_cmd = ft_strjoin(argv, new_cmd);
+	cmd = ft_split(argv, ' ');
 	return (cmd);
 }
 

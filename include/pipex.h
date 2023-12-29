@@ -6,7 +6,7 @@
 /*   By: carmeno <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/13 03:08:12 by carmeno           #+#    #+#             */
-/*   Updated: 2023/12/29 17:42:16 by deordone         ###   ########.fr       */
+/*   Updated: 2023/12/29 21:23:08 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,9 @@ void		ft_extractor(int argc, char **argv, t_pipe *info);
  * 			 ❖ ❖ ❖  UTILS  ❖ ❖ ❖
    ╚═══════════════════════════════════════════════════════╝	*/
 
-char		**ft_config_cmd(char *argv, char *file, char **cmd);
 void		ft_vortex(t_pipe *info);
+char		**ft_config_cmd(char *argv, char **cmd);
+//char		**ft_config_cmd(char *argv, char *file, char **cmd);
 int			ft_find_path(char **arg_cmd);
 
 /* ╔═══════════════════════════════════════════════════════╗

@@ -6,7 +6,7 @@
 /*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/16 12:29:46 by deordone          #+#    #+#             */
-/*   Updated: 2023/12/29 17:42:39 by deordone         ###   ########.fr       */
+/*   Updated: 2023/12/29 21:28:10 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,8 @@ int	main(int argc, char **argv)
 	ft_init_info(&info);
 	ft_extractor(argc, argv, &info);
 	ft_print_info(&info);
-	info.in_cmd = ft_config_cmd(argv[2], info.f_file, info.in_cmd);
+	//info.in_cmd = ft_config_cmd(argv[2], info.f_file, info.in_cmd);
+	info.in_cmd = ft_config_cmd(argv[2], info.in_cmd);
 	ft_vortex(&info);
 	ft_end(&info);
 	return (0);
