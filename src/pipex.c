@@ -6,7 +6,7 @@
 /*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/16 12:29:46 by deordone          #+#    #+#             */
-/*   Updated: 2023/12/29 21:28:10 by deordone         ###   ########.fr       */
+/*   Updated: 2023/12/30 20:34:44 by carmeno          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ void	ft_print_info(t_pipe *info)
 	printf("out path -> %s\n", info->out_path);
 	printf("in cmd -> %s\n", info->in_cmd[0]);
 	printf("out cmd -> %s\n", info->out_cmd[0]);
+	printf("paths -> %s\n", info->paths[0]);
 	printf("\033[1;34mOther procces\033[0m\n");
 }
 
@@ -36,10 +37,13 @@ void	ft_init_info(t_pipe *info)
 	info->out_path = NULL;
 	info->in_cmd = NULL;
 	info->out_cmd = NULL;
+	info->paths = NULL;
 }
 
-void	ft_extractor(int argc, char **argv, t_pipe *info)
+void	ft_extractor(int argc, char **argv, t_pipe *info, char *envp[])
 {
+	int	i;
+
 	info->f_file = argv[1];
 	info->l_file = argv[argc - 1];
 	info->f_fd = open(info->f_file, O_RDONLY);
@@ -53,9 +57,27 @@ void	ft_extractor(int argc, char **argv, t_pipe *info)
 	info->out_path = argv[3];
 	info->in_cmd = ft_split(argv[2], ' ');
 	info->out_cmd = ft_split(argv[3], ' ');
+	i = -1;
+	while (envp[++i] != NULL)
+	{
+		if (ft_strncmp(envp[i], "PATH=", 5) == 0)
+		{
+			info->paths = ft_split(envp[i], ':');
+			break ;
+		}
+	}
 }
 
-int	main(int argc, char **argv)
+void	ft_parse_vortex(int argc, char **argv, t_pipe *info, char *envp[])
+{
+	ft_init_info(info);
+	ft_extractor(argc, argv, info, envp);
+	if (info->paths == NULL)
+		info->paths = ft_split("/usr/bin:/bin", ':');
+	ft_print_info(info);
+}
+
+int	main(int argc, char **argv, char *envp[])
 {
 	t_pipe	info;
 
@@ -64,11 +86,7 @@ int	main(int argc, char **argv)
 		perror("to less arguments");
 		return (errno);
 	}
-	ft_init_info(&info);
-	ft_extractor(argc, argv, &info);
-	ft_print_info(&info);
-	//info.in_cmd = ft_config_cmd(argv[2], info.f_file, info.in_cmd);
-	info.in_cmd = ft_config_cmd(argv[2], info.in_cmd);
+	ft_parse_vortex(argc, argv, &info, envp);
 	ft_vortex(&info);
 	ft_end(&info);
 	return (0);

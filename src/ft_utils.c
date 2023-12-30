@@ -6,23 +6,11 @@
 /*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/22 16:30:23 by deordone          #+#    #+#             */
-/*   Updated: 2023/12/29 21:29:21 by deordone         ###   ########.fr       */
+/*   Updated: 2023/12/30 20:32:57 by carmeno          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
-
-
-//char	**ft_config_cmd(char *argv, char *file, char **cmd)
-char	**ft_config_cmd(char *argv, char **cmd)
-{
-//	char	*new_cmd;
-	
-	//new_cmd = ft_strjoin(" ", file);
-//	new_cmd = ft_strjoin(argv, new_cmd);
-	cmd = ft_split(argv, ' ');
-	return (cmd);
-}
 
 void	ft_vortex(t_pipe *info)
 {
@@ -41,7 +29,7 @@ void	ft_vortex(t_pipe *info)
 		close(pipefd[1]);
 		if (execve(info->in_path, info->in_cmd, NULL) == -1)
 		{
-			if (ft_find_path(info->in_cmd) == 0)
+			if (ft_find_path(info, info->in_cmd) == 0)
 				exit(EXIT_SUCCESS);
 			else
 				ft_error(info, "command not found");
@@ -59,7 +47,7 @@ void	ft_vortex(t_pipe *info)
 		close(pipefd[0]);
 		if (execve(info->out_path, info->out_cmd, NULL) == -1)
 		{
-			if (ft_find_path(info->out_cmd) == 0)
+			if (ft_find_path(info, info->out_cmd) == 0)
 				exit(EXIT_SUCCESS);
 			else
 				ft_error(info, "command not found");
@@ -68,31 +56,23 @@ void	ft_vortex(t_pipe *info)
 	}
 }
 
-int	ft_find_path(char **arg_cmd)
+int	ft_find_path(t_pipe *info, char **arg_cmd)
 {
 	int		i;
 	int		j;
-	int		l_path;
-	char 	*my_path;
-	char	**split_path;
-	char	*rslt_path;
-	char	PATH_VALUE[] = "/Users/deordone/.deno/bin:/Users/deordone/Library/Python/3.8/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Applications/VMware Fusion.app/Contents/Public:/usr/local/go/bin:/usr/local/munki"; 
+	char	*new_path;
 
 	i = 0;
 	j = 0;
-	l_path = ft_strlen(PATH_VALUE);
-	my_path = malloc(sizeof(char) * (l_path + 1));
-	ft_strlcpy(my_path, PATH_VALUE, l_path + 1);
-	split_path = ft_split(my_path, ':');
-	while(split_path[i] != NULL)
+	while (info->paths[i] != NULL)
 		i++;
 	while (i > j)
 	{
-		my_path = ft_strjoin(split_path[j], "/");
-		rslt_path = ft_strjoin(my_path, arg_cmd[0]);
-		if (execve(rslt_path, arg_cmd, NULL) == -1)
+		new_path = ft_strjoin(info->paths[j], "/");
+		new_path = ft_strjoin(new_path, arg_cmd[0]);
+		if (execve(new_path, arg_cmd, NULL) == -1)
 			j++;
-		else 
+		else
 			return (0);
 	}
 	return (1);
