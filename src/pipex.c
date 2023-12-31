@@ -6,7 +6,7 @@
 /*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/16 12:29:46 by deordone          #+#    #+#             */
-/*   Updated: 2023/12/30 20:34:44 by carmeno          ###   ########.fr       */
+/*   Updated: 2023/12/31 17:13:38 by carmeno          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,8 @@ void	ft_parse_vortex(int argc, char **argv, t_pipe *info, char *envp[])
 	ft_extractor(argc, argv, info, envp);
 	if (info->paths == NULL)
 		info->paths = ft_split("/usr/bin:/bin", ':');
+	else
+		info->paths[0] = ft_strchr(info->paths[0], '/'); 
 	ft_print_info(info);
 }
 
