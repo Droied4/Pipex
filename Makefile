@@ -13,6 +13,7 @@ NAME = pipex
 
 SOURCES = pipex.c ft_errors.c ft_utils.c
 SRC_LIBFT = libft/libft.a
+SRC_PRINTF = my_printf/libftprintf.a
 OBJECTS = $(addprefix obj/, ${SOURCES:.c=.o})
 DEPS = $(SRC:.c=.d)
 
@@ -24,18 +25,22 @@ CFLAGS = -Wall -Wextra -Werror -Iinclude -g
 
 MAKE_LIBFT = make -C libft bonus
 
+MAKE_PRINTF = make -C my_printf
+
 %.o: %.c Makefile
 	$(CC) $(CFLAGS) -c $< -o $@
 
-all: header make_lib $(NAME)
+all: header make_lib make_print $(NAME)
 
 make_lib: 
 	$(MAKE_LIBFT) 
+make_print:
+	$(MAKE_PRINTF)
 
 -include $(DEPS)
-$(NAME): compiled_libft $(OBJECTS) $(SRC_LIBFT)
+$(NAME): compiled_libft $(OBJECTS) $(SRC_LIBFT) $(SRC_PRINTF)
 		@printf "$(GREEN)";  
-		$(CC) $(CFLAGS) $(OBJECTS) $(SRC_LIBFT) -o $(NAME) 
+		$(CC) $(CFLAGS) $(OBJECTS) $(SRC_LIBFT) $(SRC_PRINTF) -o $(NAME) 
 
 obj/%.o: src/%.c $(HEADER) Makefile
 		@printf "$(GREEN)";  
@@ -46,10 +51,12 @@ clean: ok
 	rm -rf obj 
 	rm -f $(DEPS)
 	$(MAKE_LIBFT) clean
+	$(MAKE_PRINTF) clean
 
 fclean : ok clean
 		rm -rf $(NAME)
 		$(MAKE_LIBFT) fclean
+		$(MAKE_PRINTF) fclean
 
 re: fclean all 
 
