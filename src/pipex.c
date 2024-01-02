@@ -6,7 +6,7 @@
 /*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/16 12:29:46 by deordone          #+#    #+#             */
-/*   Updated: 2024/01/02 04:38:51 by carmeno          ###   ########.fr       */
+/*   Updated: 2024/01/02 05:02:31 by carmeno          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ int	main(int argc, char **argv, char *envp[])
 
 	if (argc < 5)
 	{
-		perror("to less arguments");
+		write(1, "not enough arguments\n", 21);
 		return (errno);
 	}
 	ft_parse_vortex(argc, argv, &info, envp);
