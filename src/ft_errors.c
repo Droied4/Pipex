@@ -6,7 +6,7 @@
 /*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/22 16:30:08 by deordone          #+#    #+#             */
-/*   Updated: 2024/01/02 10:11:37 by deordone         ###   ########.fr       */
+/*   Updated: 2024/01/02 18:03:04 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,9 @@ void	ft_free_array(char **res)
 	i = 0;
 	while (res[i])
 		i++;
-	while (i)
-		free(res[i--]);
-	free(res[i--]);
+	while (--i)
+		free(res[i]);
+	free(res[i]);
 	free(res);
 }
 
@@ -40,7 +40,7 @@ void	ft_clean(t_pipe *info)
 	if (info->out_path != NULL)
 		free(info->out_path);
 	if (info->paths != NULL)
-		free(info->paths);
+		ft_free_array(info->paths);
 }
 
 void	ft_error(t_pipe *info, const char *message, int flag_nb)

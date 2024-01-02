@@ -6,12 +6,12 @@
 /*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/16 12:29:46 by deordone          #+#    #+#             */
-/*   Updated: 2024/01/02 10:10:03 by deordone         ###   ########.fr       */
+/*   Updated: 2024/01/02 17:07:02 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
-
+/* auxiliar
 void	ft_print_info(t_pipe *info)
 {
 	ft_printf("\033[1;31mInfo t_pipe\033[0m\n");
@@ -25,7 +25,7 @@ void	ft_print_info(t_pipe *info)
 	ft_printf("out cmd -> %s\n", info->out_cmd[0]);
 	ft_printf("paths -> %s\n", info->paths[0]);
 	ft_printf("\033[1;34mOther procces\033[0m\n");
-}
+}*/
 
 void	ft_init_info(t_pipe *info, char **argv, int argc)
 {
@@ -73,12 +73,11 @@ void	ft_parse_vortex(int argc, char **argv, t_pipe *info, char *envp[])
 	ft_init_info(info, argv, argc);
 	ft_extractor(argv, info, envp);
 	info->in_path = ft_check_path(info, info->in_cmd);
-	info->out_path = ft_check_path(info, info->out_cmd);
 	if (info->in_path == NULL)
 		ft_error(info, info->in_cmd[0], 3);
-	else if (info->out_path == NULL)
+	info->out_path = ft_check_path(info, info->out_cmd);
+	if (info->out_path == NULL)
 		ft_error(info, info->out_cmd[0], 3);
-	ft_print_info(info);
 }
 
 int	main(int argc, char **argv, char *envp[])

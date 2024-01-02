@@ -21,7 +21,7 @@ HEADER = include/pipex.h
 
 CC = cc
 
-CFLAGS = -Wall -Wextra -Werror -Iinclude
+CFLAGS = -Wall -Wextra -Werror -Iinclude -g
 
 MAKE_LIBFT = make -C libft bonus
 
