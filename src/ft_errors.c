@@ -6,7 +6,7 @@
 /*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/22 16:30:08 by deordone          #+#    #+#             */
-/*   Updated: 2023/12/30 20:09:28 by carmeno          ###   ########.fr       */
+/*   Updated: 2024/01/02 04:53:11 by carmeno          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,14 +22,19 @@ void	ft_end(t_pipe *info)
 	close(info->l_fd);
 }
 
-void	ft_error(t_pipe *info, const char *message)
-{
+void	ft_error(t_pipe *info, const char *message, int flag_nb)
+{	
+	if (flag_nb == 2)
+	{	
+		if (access(info->f_file, F_OK)) 
+			printf("pipex: no such file or directory: %s\n", message);
+		else
+			printf("pipex: permission denied: %s\n", message);
+	}	
+	else if (flag_nb == 3)
+		printf("pipex: command not found: %s\n", message);
 	ft_clean(info);
-	if (write(1, "pipex: ", 7) == -1)
-		exit(1);
-	perror(message);
-	// system para ver los leaks system("leaks pipex");
-	exit(errno);
+	exit(EXIT_FAILURE);
 }
 
 void	ft_clean(t_pipe *info)
@@ -60,3 +65,7 @@ void	ft_free_array(char **res)
 	free(res[i--]);
 	free(res);
 }
+/*
+ * 2 = archivo no encontrado
+ * 3 = comando no encontrado
+ * */

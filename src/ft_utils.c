@@ -6,11 +6,37 @@
 /*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/22 16:30:23 by deordone          #+#    #+#             */
-/*   Updated: 2023/12/30 20:32:57 by carmeno          ###   ########.fr       */
+/*   Updated: 2024/01/02 04:04:29 by carmeno          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
+
+static void	ft_child(t_pipe *info, int *pipefd)
+{
+	close(pipefd[0]);
+	dup2(pipefd[1], STDOUT_FILENO);
+	close(pipefd[1]);
+	if (execve(info->in_path, info->in_cmd, NULL) == -1)
+		exit(EXIT_FAILURE);
+	else
+		exit(EXIT_SUCCESS);
+}
+
+static void	ft_parent(t_pipe *info, int *pipefd)
+{
+	if (dup2(info->l_fd, STDOUT_FILENO) == -1)
+		ft_error(info, "dup child failed", 4);
+	close(info->l_fd);
+	close(pipefd[1]);
+	if (dup2(pipefd[0], STDIN_FILENO) == -1)
+		ft_error(info, "dup child failed", 4);
+	close(pipefd[0]);
+	if (execve(info->out_path, info->out_cmd, NULL) == -1)
+		exit(EXIT_FAILURE);
+	else
+		exit(EXIT_SUCCESS);
+}
 
 void	ft_vortex(t_pipe *info)
 {
@@ -18,45 +44,24 @@ void	ft_vortex(t_pipe *info)
 	int	pid;
 
 	if (pipe(pipefd) == -1)
-		ft_error(info, "pipe failed");
+		ft_error(info, "pipe failed", 5);
 	pid = fork();
 	if (pid == -1)
-		ft_error(info, "fork failed");
-	if (pid > 0)
-	{
-		close(pipefd[0]);
-		dup2(pipefd[1], STDOUT_FILENO);
-		close(pipefd[1]);
-		if (execve(info->in_path, info->in_cmd, NULL) == -1)
-		{
-			if (ft_find_path(info, info->in_cmd) == 0)
-				exit(EXIT_SUCCESS);
-			else
-				ft_error(info, "command not found");
-		}
-		exit(EXIT_FAILURE);
-	}
+		ft_error(info, "fork failed", 6);
+	if (pid == 0)
+		ft_child(info, pipefd);
 	else
 	{
-		if (dup2(info->l_fd, STDOUT_FILENO) == -1)
-			ft_error(info, "dup child failed");
-		close(info->l_fd);
-		close(pipefd[1]);
-		if (dup2(pipefd[0], STDIN_FILENO) == -1)
-			ft_error(info, "dup child failed");
-		close(pipefd[0]);
-		if (execve(info->out_path, info->out_cmd, NULL) == -1)
-		{
-			if (ft_find_path(info, info->out_cmd) == 0)
-				exit(EXIT_SUCCESS);
-			else
-				ft_error(info, "command not found");
-		}
-		exit(EXIT_FAILURE);
+		int status;
+		waitpid(pid, &status, 0);
+		if (WIFEXITED(status) && WEXITSTATUS(status) != 0)
+			ft_error(info, "fallo el hijo", 10);
+		else
+			ft_parent(info, pipefd);
 	}
 }
 
-int	ft_find_path(t_pipe *info, char **arg_cmd)
+char	*ft_check_path(t_pipe *info, char **arg_cmd)
 {
 	int		i;
 	int		j;
@@ -70,10 +75,10 @@ int	ft_find_path(t_pipe *info, char **arg_cmd)
 	{
 		new_path = ft_strjoin(info->paths[j], "/");
 		new_path = ft_strjoin(new_path, arg_cmd[0]);
-		if (execve(new_path, arg_cmd, NULL) == -1)
+		if (access(new_path, F_OK) == -1)
 			j++;
 		else
-			return (0);
+			return (new_path);
 	}
-	return (1);
+	return (NULL);
 }
