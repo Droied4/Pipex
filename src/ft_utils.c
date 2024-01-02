@@ -6,7 +6,7 @@
 /*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/22 16:30:23 by deordone          #+#    #+#             */
-/*   Updated: 2024/01/02 05:47:35 by carmeno          ###   ########.fr       */
+/*   Updated: 2024/01/02 10:08:59 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@ static void	ft_child(t_pipe *info, int *pipefd)
 	if (dup2(pipefd[1], STDOUT_FILENO) == -1)
 		ft_error(info, "dup2 kid failed", 4);
 	close(pipefd[1]);
-	if (execve(info->in_path, info->in_cmd, NULL) == -1)
-		exit(EXIT_FAILURE);	
+	if (execve(info->in_path, info->in_cmd, NULL) < 0)
+		ft_error(info, "execve failed", 1);
 	else
 		exit(EXIT_SUCCESS);
 }
@@ -35,8 +35,8 @@ static void	ft_parent(t_pipe *info, int *pipefd)
 	if (dup2(pipefd[0], STDIN_FILENO) == -1)
 		ft_error(info, "dup parent failed", 4);
 	close(pipefd[0]);
-	if (execve(info->out_path, info->out_cmd, NULL) == -1)
-		exit(EXIT_FAILURE);
+	if (execve(info->out_path, info->out_cmd, NULL) < 0)
+		ft_error(info, "execve failed", 1);
 	else
 		exit(EXIT_SUCCESS);
 }
@@ -45,7 +45,6 @@ void	ft_vortex(t_pipe *info)
 {
 	int	pipefd[2];
 	int	pid;
-		int status;
 
 	if (pipe(pipefd) == -1)
 		ft_error(info, "pipe failed", 5);
@@ -55,13 +54,7 @@ void	ft_vortex(t_pipe *info)
 	if (pid == 0)
 		ft_child(info, pipefd);
 	else
-	{
-		waitpid(pid, &status, 0);
-		if (WIFEXITED(status) && WEXITSTATUS(status) != 0)
-			ft_error(info, "fallo el hijo", 10);
-		else
-			ft_parent(info, pipefd);
-	}
+		ft_parent(info, pipefd);
 }
 
 char	*ft_check_path(t_pipe *info, char **arg_cmd)

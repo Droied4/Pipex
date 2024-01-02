@@ -6,7 +6,7 @@
 /*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/16 12:29:46 by deordone          #+#    #+#             */
-/*   Updated: 2024/01/02 09:27:13 by deordone         ###   ########.fr       */
+/*   Updated: 2024/01/02 10:10:03 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,12 @@ void	ft_print_info(t_pipe *info)
 	ft_printf("\033[1;34mOther procces\033[0m\n");
 }
 
-void	ft_init_info(t_pipe *info)
+void	ft_init_info(t_pipe *info, char **argv, int argc)
 {
 	info->f_fd = -1;
 	info->l_fd = -1;
-	info->f_file = NULL;
-	info->l_file = NULL;
+	info->f_file = argv[1];
+	info->l_file = argv[argc - 1];
 	info->in_path = NULL;
 	info->out_path = NULL;
 	info->in_cmd = NULL;
@@ -40,12 +40,10 @@ void	ft_init_info(t_pipe *info)
 	info->paths = NULL;
 }
 
-void	ft_extractor(int argc, char **argv, t_pipe *info, char *envp[])
+void	ft_extractor(char **argv, t_pipe *info, char *envp[])
 {
 	int	i;
 
-	info->f_file = argv[1];
-	info->l_file = argv[argc - 1];
 	info->f_fd = open(info->f_file, O_RDONLY);
 	if (info->f_fd == -1)
 		ft_error(info, info->f_file, 2);
@@ -72,8 +70,8 @@ void	ft_extractor(int argc, char **argv, t_pipe *info, char *envp[])
 
 void	ft_parse_vortex(int argc, char **argv, t_pipe *info, char *envp[])
 {
-	ft_init_info(info);
-	ft_extractor(argc, argv, info, envp);
+	ft_init_info(info, argv, argc);
+	ft_extractor(argv, info, envp);
 	info->in_path = ft_check_path(info, info->in_cmd);
 	info->out_path = ft_check_path(info, info->out_cmd);
 	if (info->in_path == NULL)
@@ -94,6 +92,5 @@ int	main(int argc, char **argv, char *envp[])
 	}
 	ft_parse_vortex(argc, argv, &info, envp);
 	ft_vortex(&info);
-	ft_end(&info);
 	return (0);
 }
