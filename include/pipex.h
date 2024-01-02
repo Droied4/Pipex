@@ -6,13 +6,14 @@
 /*   By: carmeno <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/13 03:08:12 by carmeno           #+#    #+#             */
-/*   Updated: 2024/01/02 03:43:15 by carmeno          ###   ########.fr       */
+/*   Updated: 2024/01/02 09:28:37 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PIPEX_H
 # define PIPEX_H
 # include "../libft/libft.h"
+# include "../my_printf/ft_printf.h"
 # include <sys/wait.h>
 # include <errno.h>
 # include <string.h>

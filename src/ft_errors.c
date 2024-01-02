@@ -6,7 +6,7 @@
 /*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/22 16:30:08 by deordone          #+#    #+#             */
-/*   Updated: 2024/01/02 04:53:11 by carmeno          ###   ########.fr       */
+/*   Updated: 2024/01/02 09:29:26 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,12 @@ void	ft_error(t_pipe *info, const char *message, int flag_nb)
 	if (flag_nb == 2)
 	{	
 		if (access(info->f_file, F_OK)) 
-			printf("pipex: no such file or directory: %s\n", message);
+			ft_printf("pipex: no such file or directory: %s\n", message);
 		else
-			printf("pipex: permission denied: %s\n", message);
+			ft_printf("pipex: permission denied: %s\n", message);
 	}	
 	else if (flag_nb == 3)
-		printf("pipex: command not found: %s\n", message);
+		ft_printf("pipex: command not found: %s\n", message);
 	ft_clean(info);
 	exit(EXIT_FAILURE);
 }

@@ -6,7 +6,7 @@
 /*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/16 12:29:46 by deordone          #+#    #+#             */
-/*   Updated: 2024/01/02 05:46:25 by carmeno          ###   ########.fr       */
+/*   Updated: 2024/01/02 09:27:13 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,17 @@
 
 void	ft_print_info(t_pipe *info)
 {
-	printf("\033[1;31mInfo t_pipe\033[0m\n");
-	printf("f_file -> %s\n", info->f_file);
-	printf("l_file -> %s\n", info->l_file);
-	printf("f_fd -> %i\n", info->f_fd);
-	printf("l fd -> %i\n", info->l_fd);
-	printf("in path -> %s\n", info->in_path);
-	printf("out path -> %s\n", info->out_path);
-	printf("in cmd -> %s\n", info->in_cmd[0]);
-	printf("out cmd -> %s\n", info->out_cmd[0]);
-	printf("paths -> %s\n", info->paths[0]);
-	printf("\033[1;34mOther procces\033[0m\n");
+	ft_printf("\033[1;31mInfo t_pipe\033[0m\n");
+	ft_printf("f_file -> %s\n", info->f_file);
+	ft_printf("l_file -> %s\n", info->l_file);
+	ft_printf("f_fd -> %i\n", info->f_fd);
+	ft_printf("l fd -> %i\n", info->l_fd);
+	ft_printf("in path -> %s\n", info->in_path);
+	ft_printf("out path -> %s\n", info->out_path);
+	ft_printf("in cmd -> %s\n", info->in_cmd[0]);
+	ft_printf("out cmd -> %s\n", info->out_cmd[0]);
+	ft_printf("paths -> %s\n", info->paths[0]);
+	ft_printf("\033[1;34mOther procces\033[0m\n");
 }
 
 void	ft_init_info(t_pipe *info)
