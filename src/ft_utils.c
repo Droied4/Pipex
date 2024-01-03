@@ -6,7 +6,7 @@
 /*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/22 16:30:23 by deordone          #+#    #+#             */
-/*   Updated: 2024/01/02 18:24:09 by deordone         ###   ########.fr       */
+/*   Updated: 2024/01/03 14:03:40 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,13 @@
 static void	ft_child(t_pipe *info, int *pipefd)
 {
 	if (dup2(info->f_fd, STDIN_FILENO) == -1)
-		ft_error(info, "dup2 kid faile", 4);
+		ft_error(info, "dup2 child failed", 4);
 	close(pipefd[0]);
 	if (dup2(pipefd[1], STDOUT_FILENO) == -1)
-		ft_error(info, "dup2 kid failed", 4);
+		ft_error(info, "dup2 child failed", 4);
 	close(pipefd[1]);
 	if (execve(info->in_path, info->in_cmd, NULL) < 0)
-		ft_error(info, "execve failed", 1);
+		ft_error(info, "execve child failed", 4);
 	else
 		exit(EXIT_SUCCESS);
 }
@@ -36,7 +36,7 @@ static void	ft_parent(t_pipe *info, int *pipefd)
 		ft_error(info, "dup parent failed", 4);
 	close(pipefd[0]);
 	if (execve(info->out_path, info->out_cmd, NULL) < 0)
-		ft_error(info, "execve failed", 1);
+		ft_error(info, "execve parent failed", 4);
 	else
 		exit(EXIT_SUCCESS);
 }
@@ -47,39 +47,46 @@ void	ft_vortex(t_pipe *info)
 	int	pid;
 
 	if (pipe(pipefd) == -1)
-		ft_error(info, "pipe failed", 5);
+		ft_error(info, "pipe failed", 4);
 	pid = fork();
 	if (pid == -1)
-		ft_error(info, "fork failed", 6);
+		ft_error(info, "fork failed", 4);
 	if (pid == 0)
 		ft_child(info, pipefd);
 	else
 		ft_parent(info, pipefd);
 }
 
-char	*ft_check_path(t_pipe *info, char **arg_cmd)
+static void	ft_aux_check(char *new_path, char *new_cmd)
 {
-	int		i;
-	int		j;
-	char	*new_path;
-	char 	*new_cmd;
+	free(new_path);
+	free(new_cmd);
+}
 
-	i = 0;
+char	*ft_check_path(t_pipe *info, char **arg_cmd, int i)
+{
+	int		j;
+	char	*new_cmd;
+	char	*new_path;
+
 	j = 0;
-	while (info->paths[i] != NULL)
-		i++;
 	while (i > j)
 	{
 		new_path = ft_strjoin(info->paths[j], "/");
 		new_cmd = ft_strjoin(new_path, arg_cmd[0]);
-		if (access(new_cmd, F_OK) == 0)
-			return (new_cmd);
-		else
+		if (access(new_cmd, F_OK | X_OK) == 0)
 		{
 			free(new_path);
-			free(new_cmd);
-			j++;
+			return (new_cmd);
 		}
+		else if (access(new_cmd, F_OK) == 0)
+		{
+			ft_aux_check(new_path, new_cmd);
+			ft_error(info, "permission denied", 4);
+		}
+		else
+			ft_aux_check(new_path, new_cmd);
+		j++;
 	}
 	return (NULL);
 }

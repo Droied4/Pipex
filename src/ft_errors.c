@@ -6,7 +6,7 @@
 /*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/22 16:30:08 by deordone          #+#    #+#             */
-/*   Updated: 2024/01/02 18:03:04 by deordone         ###   ########.fr       */
+/*   Updated: 2024/01/03 13:57:33 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,12 +52,15 @@ void	ft_error(t_pipe *info, const char *message, int flag_nb)
 		else
 			ft_printf("pipex: permission denied: %s\n", message);
 	}
-	else if (flag_nb == 3)
+	if (flag_nb == 3)
 		ft_printf("pipex: command not found: %s\n", message);
+	else if (flag_nb == 4)
+		ft_printf("pipex: %s", message);
 	ft_clean(info);
 	exit(EXIT_FAILURE);
 }
-/*
+/* 
  * 2 = archivo no encontrado
  * 3 = comando no encontrado
+ * 4 = other errors
  * */
