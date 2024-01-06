@@ -6,7 +6,7 @@
 /*   By: carmeno <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/13 03:08:12 by carmeno           #+#    #+#             */
-/*   Updated: 2024/01/03 14:02:10 by deordone         ###   ########.fr       */
+/*   Updated: 2024/01/06 05:51:35 by carmeno          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ char		*ft_check_path(t_pipe *info, char **arg_cmd, int i);
 
 void		ft_error(t_pipe *info, const char *message, int flag_nb);
 void		ft_clean(t_pipe *info);
+void		ft_error_paths(t_pipe *info);
 void		ft_free_array(char **res);
 
 #endif

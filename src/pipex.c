@@ -6,7 +6,7 @@
 /*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/16 12:29:46 by deordone          #+#    #+#             */
-/*   Updated: 2024/01/03 14:03:54 by deordone         ###   ########.fr       */
+/*   Updated: 2024/01/06 05:56:02 by carmeno          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ void	ft_print_info(t_pipe *info)
 	ft_printf("paths -> %s\n", info->paths[0]);
 	ft_printf("\033[1;34mOther procces\033[0m\n");
 }*/
+
 void	ft_init_info(t_pipe *info, char **argv, int argc)
 {
 	info->f_fd = -1;
@@ -64,8 +65,6 @@ void	ft_extractor(char **argv, t_pipe *info, char *envp[])
 	}
 	if (info->paths == NULL)
 		info->paths = ft_split("/usr/bin:/bin", ':');
-	else
-		info->paths[0] = ft_strchr(info->paths[0], '/');
 }
 
 void	ft_parse_vortex(int argc, char **argv, t_pipe *info, char *envp[])
@@ -78,11 +77,9 @@ void	ft_parse_vortex(int argc, char **argv, t_pipe *info, char *envp[])
 	while (info->paths[i] != NULL)
 		i++;
 	info->in_path = ft_check_path(info, info->in_cmd, i);
-	if (info->in_path == NULL)
-		ft_error(info, info->in_cmd[0], 3);
 	info->out_path = ft_check_path(info, info->out_cmd, i);
-	if (info->out_path == NULL)
-		ft_error(info, info->out_cmd[0], 3);
+	if (info->in_path == NULL || info->out_path == NULL)
+		ft_error(info, info->in_cmd[0], 5);
 }
 
 int	main(int argc, char **argv, char *envp[])

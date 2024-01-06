@@ -6,7 +6,7 @@
 /*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/22 16:30:23 by deordone          #+#    #+#             */
-/*   Updated: 2024/01/03 14:03:40 by deordone         ###   ########.fr       */
+/*   Updated: 2024/01/06 06:06:33 by carmeno          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,10 +57,22 @@ void	ft_vortex(t_pipe *info)
 		ft_parent(info, pipefd);
 }
 
-static void	ft_aux_check(char *new_path, char *new_cmd)
+static char	*ft_aux_check(char *new_path, char *new_cmd)
 {
-	free(new_path);
-	free(new_cmd);
+	if (access(new_cmd, F_OK | X_OK) == 0)
+		return (new_cmd);
+	else if (access(new_cmd, X_OK) == -1)
+	{
+		free(new_path);
+		free(new_cmd);
+		return (NULL);
+	}
+	else
+	{
+		free(new_path);
+		free(new_cmd);
+	}
+	return (NULL);
 }
 
 char	*ft_check_path(t_pipe *info, char **arg_cmd, int i)
@@ -70,22 +82,18 @@ char	*ft_check_path(t_pipe *info, char **arg_cmd, int i)
 	char	*new_path;
 
 	j = 0;
+	if (access(arg_cmd[0], F_OK | X_OK) == 0)
+	{
+		new_cmd = strdup(arg_cmd[0]);
+		return (new_cmd);
+	}
 	while (i > j)
 	{
 		new_path = ft_strjoin(info->paths[j], "/");
 		new_cmd = ft_strjoin(new_path, arg_cmd[0]);
-		if (access(new_cmd, F_OK | X_OK) == 0)
-		{
-			free(new_path);
+		new_cmd = ft_aux_check(new_path, new_cmd);
+		if (new_cmd)
 			return (new_cmd);
-		}
-		else if (access(new_cmd, F_OK) == 0)
-		{
-			ft_aux_check(new_path, new_cmd);
-			ft_error(info, "permission denied", 4);
-		}
-		else
-			ft_aux_check(new_path, new_cmd);
 		j++;
 	}
 	return (NULL);

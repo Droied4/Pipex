@@ -6,11 +6,37 @@
 /*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/22 16:30:08 by deordone          #+#    #+#             */
-/*   Updated: 2024/01/03 13:57:33 by deordone         ###   ########.fr       */
+/*   Updated: 2024/01/06 06:07:27 by carmeno          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
+
+void	ft_error_paths(t_pipe *info)
+{
+	if (info->in_path)
+	{
+		if (access(info->in_path, X_OK) == -1)
+			ft_printf("pipex: permission denied: %s\n", info->in_cmd[0]);
+		free(info->in_path);
+		info->in_path = NULL;
+	}
+	else if (access(info->in_cmd[0], F_OK) == 0)
+		ft_printf("pipex: permission denied: %s\n", info->in_cmd[0]);
+	else
+		ft_printf("pipex: command not found: %s\n", info->in_cmd[0]);
+	if (info->out_path)
+	{
+		if (access(info->out_path, X_OK) == -1)
+			ft_printf("pipex: permission denied: %s\n", info->out_cmd[0]);
+		free(info->out_path);
+		info->out_path = NULL;
+	}
+	else if (access(info->out_cmd[0], F_OK) == 0)
+		ft_printf("pipex: permission denied: %s\n", info->out_cmd[0]);
+	else
+		ft_printf("pipex: command not found: %s\n", info->out_cmd[0]);
+}
 
 void	ft_free_array(char **res)
 {
@@ -52,15 +78,16 @@ void	ft_error(t_pipe *info, const char *message, int flag_nb)
 		else
 			ft_printf("pipex: permission denied: %s\n", message);
 	}
-	if (flag_nb == 3)
-		ft_printf("pipex: command not found: %s\n", message);
 	else if (flag_nb == 4)
 		ft_printf("pipex: %s", message);
+	else if (flag_nb == 5)
+		ft_error_paths(info);
 	ft_clean(info);
 	exit(EXIT_FAILURE);
 }
-/* 
+/*
  * 2 = archivo no encontrado
  * 3 = comando no encontrado
  * 4 = other errors
+ * 5 = both commands
  * */
