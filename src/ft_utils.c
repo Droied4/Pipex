@@ -6,7 +6,7 @@
 /*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/22 16:30:23 by deordone          #+#    #+#             */
-/*   Updated: 2024/01/06 16:48:43 by carmeno          ###   ########.fr       */
+/*   Updated: 2024/01/09 18:22:02 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,10 +82,9 @@ char	*ft_check_path(t_pipe *info, char **arg_cmd, int i)
 	char	*new_path;
 
 	j = 0;
-	if (access(arg_cmd[0], F_OK | X_OK) == 0)
+	if (ft_strncmp(arg_cmd[0], "./", 2) == 0)
 	{
-		new_cmd = strdup(arg_cmd[0]);
-		return (new_cmd);
+		ft_error(info, arg_cmd[0], 5);
 	}
 	while (i > j)
 	{

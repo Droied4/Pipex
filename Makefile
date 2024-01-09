@@ -1,66 +1,50 @@
+# **************************************************************************** #
 #                                                                              #
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
 #    By: deordone <deordone@student.42barcel>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2023/11/21 11:18:16 by deordone          #+#    #+#              #
-#    Updated: 2023/12/12 18:18:47 by deordone         ###   ########.fr        #
+#    Created: 2024/01/09 16:08:11 by deordone          #+#    #+#              #
+#    Updated: 2024/01/09 18:00:01 by deordone         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
-
-NAME = pipex
-
-SOURCES = pipex.c ft_errors.c ft_utils.c
-SRC_LIBFT = libft/libft.a
-SRC_PRINTF = my_printf/libftprintf.a
-OBJECTS = $(addprefix obj/, ${SOURCES:.c=.o})
-DEPS = $(SRC:.c=.d)
-
-HEADER = include/pipex.h
-
+ 
+# ╔══════════════════════════════════════════════════════════════════════════╗ #  
+#                               pipex                                          #
+# ╚══════════════════════════════════════════════════════════════════════════╝ #  
+NAME        = pipex
 CC = cc
+CFLAGS = -Wall -Wextra -Werror -I $(INCLUDE_PATH) -MMD -MF $(@:.o=.d) -g
 
-CFLAGS = -Wall -Wextra -Werror -Iinclude -g
+# ╔══════════════════════════════════════════════════════════════════════════╗ #  
+#                               SOURCES                                        #
+# ╚══════════════════════════════════════════════════════════════════════════╝ #  
 
-MAKE_LIBFT = make -C libft bonus
+SOURCES_PATH    = ./src
+OBJECTS_PATH    = ./obj
+INCLUDE_PATH    = ./include
+LIBRARY_PATH	= ./library
+LIBFT_PATH	= $(LIBRARY_PATH)/libft
+PRINTF_PATH	= $(LIBRARY_PATH)/printf
 
-MAKE_PRINTF = make -C my_printf
+LIBFT = $(LIBFT_PATH)/libft.a
+PRINTF = $(PRINTF_PATH)/libftprintf.a
 
-%.o: %.c Makefile
-	$(CC) $(CFLAGS) -c $< -o $@
+HEADER = $(INCLUDE_PATH)/pipex.h
+SOURCES = pipex.c ft_utils.c ft_errors.c
 
-all: header make_lib make_print $(NAME)
+# ╔══════════════════════════════════════════════════════════════════════════╗ #  
+#                               OBJECTS                                        #
+# ╚══════════════════════════════════════════════════════════════════════════╝ #  
 
-make_lib: 
-	$(MAKE_LIBFT) 
-make_print:
-	$(MAKE_PRINTF)
+OBJECTS = $(addprefix $(OBJECTS_PATH)/, ${SOURCES:.c=.o})
+DEPS = $(addprefix $(OBJECTS_PATH)/, ${SOURCES:.c=.d})
 
--include $(DEPS)
-$(NAME): compiled_libft $(OBJECTS) $(SRC_LIBFT) $(SRC_PRINTF)
-		@printf "$(GREEN)";  
-		$(CC) $(CFLAGS) $(OBJECTS) $(SRC_LIBFT) $(SRC_PRINTF) -o $(NAME) 
+# ╔══════════════════════════════════════════════════════════════════════════╗ #  
+#                               COLORS                                         #
+# ╚══════════════════════════════════════════════════════════════════════════╝ #  
 
-obj/%.o: src/%.c $(HEADER) Makefile
-		@printf "$(GREEN)";  
-		@mkdir -p $(dir $@)
-		$(CC) $(CFLAGS) -c $< -o $@
-
-clean: ok
-	rm -rf obj 
-	rm -f $(DEPS)
-	$(MAKE_LIBFT) clean
-	$(MAKE_PRINTF) clean
-
-fclean : ok clean
-		rm -rf $(NAME)
-		$(MAKE_LIBFT) fclean
-		$(MAKE_PRINTF) fclean
-
-re: fclean all 
-
-# Definición de códigos de colores ANSI
 RED=\033[0;31m
 CYAN=\033[0;36m
 GREEN=\033[0;32m
@@ -68,6 +52,44 @@ YELLOW=\033[0;33m
 WHITE=\033[0;97m
 BLUE=\033[0;34m
 NC=\033[0m # No color
+
+# ╔══════════════════════════════════════════════════════════════════════════╗ #  
+#                               RULES                                          #
+# ╚══════════════════════════════════════════════════════════════════════════╝ #  
+
+all: header $(NAME)
+
+-include $(DEPS)
+$(NAME): $(OBJECTS) $(LIBFT) $(PRINTF)
+	@printf "$(CYAN)$@ Compiled$(NC)\n";
+	@$(CC) $(CFLAGS) $^ -o $(NAME)
+
+$(OBJECTS_PATH)/%.o: $(SOURCES_PATH)/%.c $(HEADER) Makefile
+		@printf "$(CYAN)Compiling $@$(NC)\n";
+		@mkdir -p $(dir $@)
+		@$(CC) $(CFLAGS) -c $< -o $@ 
+
+$(LIBFT) :
+	@printf "$(CYAN)Compiling $@$(NC)\n";
+	@make -C $(LIBFT_PATH) > /dev/null
+
+$(PRINTF) :
+	@printf "$(CYAN)Compiling $@$(NC)\n";
+	@make -C $(PRINTF_PATH) > /dev/null
+
+clean:
+	@printf "$(CYAN)Cleaning objects and libraries$(NC)\n";
+	@rm -rf $(OBJECTS_PATH) 
+	@make clean -C $(LIBFT_PATH) > /dev/null
+	@make clean -C $(PRINTF_PATH) > /dev/null
+
+fclean : clean
+	@printf "$(CYAN)Cleaning objects, libraries and executable$(NC)\n";
+	@rm -rf $(NAME)
+	@make fclean -C $(LIBFT_PATH) > /dev/null
+	@make fclean -C $(PRINTF_PATH) > /dev/null
+
+re: fclean all 
 
 header: 
 	@echo
@@ -86,7 +108,7 @@ header:
 	@printf "	     	          ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒   ▒▒ Barcelona ▒▒▒\n";
 	@printf "	     	          ░░░░░ $(BLUE)  ░░░░░ $(YELLOW) ▒▒▒▒▒▒▒▒   ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒\n";
 	@printf "	     	         ░░░░$(WHITE)▀$(YELLOW)░░$(BLUE) ░$(WHITE)▄ $(BLUE)░$(WHITE)▄ $(BLUE)░ $(YELLOW)▒▒▒▒▒▒▒▒      |\n";
-	@printf "	    	         ░░░░░  $(BLUE) ░░░░░░░$(YELLOW) ▒▒▒▒▒▒▒▒      ╰┈➤Pipex \n";
+	@printf "	    	         ░░░░░  $(BLUE) ░░░░░░░$(YELLOW) ▒▒▒▒▒▒▒▒      ╰┈➤$(NAME) \n";
 	@printf "	     	          ░░░░░ $(BLUE) ░ ░ ░ ░$(YELLOW) ▒▒▒▒▒▒▒▒$(NC)\n";
 	@echo
 	@printf "$(RED)		  ══════════════════════════「₪」══════════════════════════$(GREEN)\n";
@@ -105,17 +127,9 @@ help:
 
 author: 
 	@printf "\n";
-	@printf "$(CYAN)		       	       Created by Droied - Ataraxia\n";
+	@printf "$(CYAN)	 	         	Created by 𝗗𝗿𝗼𝗶e𝗱 -大卫\n";
 	@printf "$(RED)		  ══════════════════════════「₪」══════════════════════════\n";
 	@printf "$(CYAN)		        	https://github.com/Droied4 \n";
+	@printf "\n";
 
-compiled_libft: 
-	@echo
-	@printf "$(RED)		  ══════════════════════════「LIBFT ₪ COMPILED」══════════════════════════\n";
-	@echo
-
-ok:
-	@printf "\n"; 
-	@printf "$(RED)Ok";
-	@printf "\n"; 
 .PHONY: all clean fclean re

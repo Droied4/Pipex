@@ -6,14 +6,14 @@
 /*   By: carmeno <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/13 03:08:12 by carmeno           #+#    #+#             */
-/*   Updated: 2024/01/06 05:51:35 by carmeno          ###   ########.fr       */
+/*   Updated: 2024/01/09 15:41:31 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PIPEX_H
 # define PIPEX_H
-# include "../libft/libft.h"
-# include "../my_printf/ft_printf.h"
+# include "../library/libft/libft.h"
+# include "../library/printf/ft_printf.h"
 # include <errno.h>
 # include <fcntl.h>
 # include <stdio.h>
