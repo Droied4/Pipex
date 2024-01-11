@@ -6,7 +6,7 @@
 /*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/16 12:29:46 by deordone          #+#    #+#             */
-/*   Updated: 2024/01/09 18:19:43 by deordone         ###   ########.fr       */
+/*   Updated: 2024/01/10 15:04:49 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,18 +74,8 @@ void	ft_parse_vortex(int argc, char **argv, t_pipe *info, char *envp[])
 	i = 0;
 	ft_init_info(info, argv, argc);
 	ft_extractor(argv, info, envp);
-	while (info->paths[i] != NULL)
-		i++;
-	if (access(info->in_cmd[0], F_OK | X_OK) == 0)
-		info->in_path = info->in_cmd[0];
-	else if (access(info->in_cmd[0], F_OK) == 0)
-		info->in_path = ft_check_path(info, info->in_cmd, i);
-	if (access(info->in_cmd[0], F_OK | X_OK) == 0)
-		info->out_path = info->in_cmd[0];
-	else if (access(info->in_cmd[0], F_OK) == 0)
-		info->out_path = ft_check_path(info, info->out_cmd, i);
-	if (info->in_path == NULL || info->out_path == NULL)
-		ft_error(info, info->in_cmd[0], 5);
+	if (ft_handle_access(info) == 1)
+		ft_error(info, "handle fail", 5);
 }
 
 int	main(int argc, char **argv, char *envp[])

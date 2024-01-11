@@ -6,7 +6,7 @@
 /*   By: carmeno <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/13 03:08:12 by carmeno           #+#    #+#             */
-/*   Updated: 2024/01/09 15:41:31 by deordone         ###   ########.fr       */
+/*   Updated: 2024/01/10 17:20:32 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,15 @@ void		ft_parse_vortex(int argc, char **argv, t_pipe *info, char *envp[]);
    ╚═══════════════════════════════════════════════════════╝	*/
 
 void		ft_vortex(t_pipe *info);
-char		*ft_check_path(t_pipe *info, char **arg_cmd, int i);
+char		*ft_check_path(t_pipe *info, char **arg_cmd);
+
+/* ╔═══════════════════════════════════════════════════════╗
+ * 		              ❖ ❖ ❖  ACCESS ❖ ❖ ❖
+   ╚═══════════════════════════════════════════════════════╝	*/
+
+int			ft_handle_access(t_pipe *info);
+int			ft_file_taster(char *cmd);
+int			ft_aux_taster(t_pipe *info, int aux, int pid, char **cmd);
 
 /* ╔═══════════════════════════════════════════════════════╗
  * 		              ❖ ❖ ❖  ERRORS  ❖ ❖ ❖

@@ -6,13 +6,101 @@
 /*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/22 16:30:08 by deordone          #+#    #+#             */
-/*   Updated: 2024/01/09 18:22:04 by deordone         ###   ########.fr       */
+/*   Updated: 2024/01/10 17:44:00 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-void	ft_error_paths(t_pipe *info)
+int	ft_handle_access(t_pipe *info)
+{
+	int	pid;
+	int	child_aux;
+	int cmp_aux;
+
+	cmp_aux = 1;
+	child_aux = 2;
+	pid = fork();
+	if (pid == -1)
+		ft_error(info, "fork failed", 4);
+	if (pid == 0) //child proccess
+	{
+		if (ft_strncmp(info->in_cmd[0], "./", 2) == 0)
+			child_aux = ft_file_taster(info->in_cmd[0]);
+		if (child_aux == 3)
+			exit (child_aux);
+		else 
+			child_aux = ft_aux_taster(info, child_aux, pid, info->in_cmd);
+		if (child_aux == 3)
+			exit (child_aux);
+		else
+			exit(child_aux);
+	}
+	else // parent proccess
+	{
+		wait(NULL);
+		waitpid(pid, &cmp_aux, 0);
+		if (waitpid(pid, &cmp_aux, 0) == 1)
+			return (cmp_aux);
+		if (ft_strncmp(info->out_cmd[0], "./", 2) == 0)
+			cmp_aux = ft_file_taster(info->out_cmd[0]);
+		if (cmp_aux == 3)
+		{
+			cmp_aux = 3;
+			return (cmp_aux);
+		}	
+		else 
+			cmp_aux = ft_aux_taster(info, cmp_aux, pid, info->out_cmd);
+		if (cmp_aux == 3)
+		{
+			cmp_aux = 3;
+			return (cmp_aux);
+		}
+		else
+			return (cmp_aux);
+	}
+}
+
+int	ft_file_taster(char *cmd)
+{
+	if ((access(cmd, F_OK | X_OK)) == 0)
+		return (3);
+	else if ((access(cmd, F_OK )) == 0)
+		return (2);
+	else
+		return (1);
+}
+
+int	ft_aux_taster(t_pipe *info, int aux, int pid, char **cmd)
+{
+	if (aux == 3)
+	{
+		if (pid == 0)
+			info->in_path = cmd[0];
+		else if (pid != 0)
+			info->out_path = cmd[0];
+		return (3);
+	}
+	/*else if (aux == 2)
+	{
+		ft_printf("pipex: permission denied: %s\n", cmd[0]);
+		return (2);
+	} esto lo hago para que lo busque*/
+	else
+	{
+		if (pid == 0)
+			info->in_path = ft_check_path(info, cmd);
+		else
+			info->out_path = ft_check_path(info, cmd);
+		if (ft_check_path(info, cmd) == NULL)
+			return (1);
+		else
+			return (3);
+	}
+}
+
+/*
+void	ft_error_paths(t_pipe *info, char *path, char *cmd)
 {
 	if (info->in_path)
 	{
@@ -37,7 +125,7 @@ void	ft_error_paths(t_pipe *info)
 	else
 		ft_printf("pipex: command not found: %s\n", info->out_cmd[0]);
 }
-
+*/
 void	ft_free_array(char **res)
 {
 	int	i;
@@ -67,6 +155,7 @@ void	ft_clean(t_pipe *info)
 		free(info->out_path);
 	if (info->paths != NULL)
 		ft_free_array(info->paths);
+	exit(EXIT_FAILURE);
 }
 
 void	ft_error(t_pipe *info, const char *message, int flag_nb)
@@ -81,13 +170,17 @@ void	ft_error(t_pipe *info, const char *message, int flag_nb)
 	else if (flag_nb == 4)
 		ft_printf("pipex: %s", message);
 	else if (flag_nb == 5)
-		ft_error_paths(info);
+	{
+		if (!info->in_path)
+			ft_printf("pipex: command not found: %s\n", info->in_cmd[0]);
+		if (!info->out_path)
+			ft_printf("pipex: command not found: %s\n", info->out_cmd[0]);
+	}
 	ft_clean(info);
-	exit(EXIT_FAILURE);
 }
+
 /*
  * 2 = archivo no encontrado
- * 3 = comando no encontrado
  * 4 = other errors
  * 5 = both commands
  * */
