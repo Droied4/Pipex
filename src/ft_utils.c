@@ -6,7 +6,7 @@
 /*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/22 16:30:23 by deordone          #+#    #+#             */
-/*   Updated: 2024/01/10 15:08:06 by deordone         ###   ########.fr       */
+/*   Updated: 2024/01/11 17:40:13 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,10 @@ static void	ft_parent(t_pipe *info, int *pipefd)
 	if (dup2(pipefd[0], STDIN_FILENO) == -1)
 		ft_error(info, "dup parent failed", 4);
 	close(pipefd[0]);
+	//ft_free_array(info->out_cmd);
+	//info->out_path = ft_strdup("/Users/deordone/Documents/workspace/Projects/Pipex/ls");
+	//info->out_cmd = ft_split("./ls", ' ');
+	//dprintf(2, "path -> %s\n cmd -> %s\n", info->out_path, info->out_cmd[0]);
 	if (execve(info->out_path, info->out_cmd, NULL) < 0)
 		ft_error(info, "execve parent failed", 4);
 	else
