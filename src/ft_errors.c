@@ -6,7 +6,7 @@
 /*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/22 16:30:08 by deordone          #+#    #+#             */
-/*   Updated: 2024/01/12 18:23:38 by carmeno          ###   ########.fr       */
+/*   Updated: 2024/01/12 19:25:16 by carmeno          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,15 +57,23 @@ void	ft_error(t_pipe *info, const char *message, int flag_nb)
 		ft_printf("pipex: %s", message);
 	else if (flag_nb == 5)
 	{
-		if (access(info->in_cmd[0], F_OK) != 0)
+		if (ft_strncmp(info->in_cmd[0], ".", 1) != 0)
 		{
-			if (!info->in_path)
-				ft_printf("pipex: command not found: %s\n", info->in_cmd[0]);
+			if (access(info->in_cmd[0], F_OK) != 0)
+			{
+				if (!info->in_path)
+					ft_printf("pipex: command not found: %s\n",
+						info->in_cmd[0]);
+			}
 		}
-		if (access(info->out_cmd[0], F_OK) != 0)
+		if (ft_strncmp(info->out_cmd[0], ".", 1) != 0)
 		{
-			if (!info->out_path)
-				ft_printf("pipex: command not found: %s\n", info->out_cmd[0]);
+			if (access(info->out_cmd[0], F_OK) != 0)
+			{
+				if (!info->out_path)
+					ft_printf("pipex: command not found: %s\n",
+						info->out_cmd[0]);
+			}
 		}
 	}
 	ft_clean(info);

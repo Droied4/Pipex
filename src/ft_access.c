@@ -6,7 +6,7 @@
 /*   By: carmeno <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/12 18:04:21 by carmeno           #+#    #+#             */
-/*   Updated: 2024/01/12 19:08:01 by carmeno          ###   ########.fr       */
+/*   Updated: 2024/01/12 19:59:45 by carmeno          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,10 @@ static int	ft_file_taster(char *cmd)
 		return (2);
 	}
 	else
+	{
+		ft_printf("pipex: no such file or directory: %s\n", cmd);
 		return (1);
+	}
 }
 
 static int	ft_aux_taster(t_pipe *info, int aux, int pid, char **cmd)
@@ -58,20 +61,15 @@ static int	parent_process(t_pipe *info, int pid)
 	waitpid(0, &parent_aux, 0);
 	if (WIFEXITED(parent_aux))
 		exit_status = WEXITSTATUS(parent_aux);
-	if (exit_status == 3)
-		parent_aux = ft_aux_taster(info, 0, 0, info->in_cmd);
-	if (exit_status == 1)
-		return (parent_aux);
-	if (ft_strncmp(info->out_cmd[0], "./", 2) == 0)
+	if (exit_status == 3)//si salio bien lo actualizamos
+		ft_aux_taster(info, 0, 0, info->in_cmd);
+	if (ft_strncmp(info->out_cmd[0], ".", 1) == 0)
 		parent_aux = ft_file_taster(info->out_cmd[0]);
-	if (parent_aux == 3 && ft_strncmp(info->out_cmd[0], "./", 2) == 0)
-		return (parent_aux);
-	else
+	if (parent_aux == 3 && exit_status == 3)//si el padre salio bien con el . devolvemos
+		return (parent_aux); 
+	else if (parent_aux != 3)
 		parent_aux = ft_aux_taster(info, parent_aux, pid, info->out_cmd);
-	if (parent_aux == 3)
-		return (parent_aux);
-	else
-		return (parent_aux);
+	return (parent_aux);
 }
 
 static void	child_process(t_pipe *info, int pid)
@@ -79,7 +77,7 @@ static void	child_process(t_pipe *info, int pid)
 	int	child_aux;
 
 	child_aux = 0;
-	if (ft_strncmp(info->in_cmd[0], "./", 2) == 0)
+	if (ft_strncmp(info->in_cmd[0], ".", 1) == 0)
 		child_aux = ft_file_taster(info->in_cmd[0]);
 	if (child_aux == 3 || child_aux == 2)
 		exit(child_aux);
@@ -94,6 +92,7 @@ static void	child_process(t_pipe *info, int pid)
 int	ft_handle_access(t_pipe *info)
 {
 	int	pid;
+	int	rslt;
 
 	pid = fork();
 	if (pid == -1)
@@ -101,6 +100,6 @@ int	ft_handle_access(t_pipe *info)
 	if (pid == 0)
 		child_process(info, pid);
 	else
-		parent_process(info, pid);
-	return (3);
+		rslt = parent_process(info, pid);
+	return (rslt);
 }
