@@ -6,7 +6,7 @@
 /*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/16 12:29:46 by deordone          #+#    #+#             */
-/*   Updated: 2024/01/12 16:53:07 by carmeno          ###   ########.fr       */
+/*   Updated: 2024/01/12 21:07:43 by carmeno          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,21 @@ void	ft_print_info(t_pipe *info)
 	ft_printf("paths -> %s\n", info->paths[0]);
 	ft_printf("\033[1;34mOther procces\033[0m\n");
 }*/
+void	ft_update_pacmd(char **path, char **cmd, char comp)
+{
+	char *pos;
+
+	if (comp == '.') 
+	{
+		if (*path)
+			free(*path);
+		*path = ft_strdup(cmd[0]);
+		ft_free_array(cmd);
+		pos = ft_strrchr(*path, '/');
+		pos++;
+		cmd = ft_split(pos, ' ');
+	}
+}
 
 void	ft_init_info(t_pipe *info, char **argv, int argc)
 {
@@ -73,6 +88,10 @@ void	ft_parse_vortex(int argc, char **argv, t_pipe *info, char *envp[])
 	ft_extractor(argv, info, envp);
 	if (ft_handle_access(info) == 1)
 		ft_error(info, "handle fail", 5);
+	if (info->in_cmd[0][0] == '.')
+		ft_update_pacmd(&info->in_path, info->in_cmd, info->in_cmd[0][0]);
+	if (info->out_cmd[0][0] == '.')
+		ft_update_pacmd(&info->out_path, info->out_cmd, info->out_cmd[0][0]);
 	if (info->in_path == NULL)
 		ft_error(info, "null path", 5);
 }
