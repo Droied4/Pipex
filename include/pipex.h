@@ -6,7 +6,7 @@
 /*   By: carmeno <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/13 03:08:12 by carmeno           #+#    #+#             */
-/*   Updated: 2024/01/10 17:20:32 by deordone         ###   ########.fr       */
+/*   Updated: 2024/01/12 18:17:11 by carmeno          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,8 @@ char		*ft_check_path(t_pipe *info, char **arg_cmd);
    ╚═══════════════════════════════════════════════════════╝	*/
 
 int			ft_handle_access(t_pipe *info);
-int			ft_file_taster(char *cmd);
-int			ft_aux_taster(t_pipe *info, int aux, int pid, char **cmd);
+//int			ft_file_taster(t_pipe *info, char *cmd);
+//int			ft_aux_taster(t_pipe *info, int aux, int pid, char **cmd);
 
 /* ╔═══════════════════════════════════════════════════════╗
  * 		              ❖ ❖ ❖  ERRORS  ❖ ❖ ❖
@@ -65,7 +65,6 @@ int			ft_aux_taster(t_pipe *info, int aux, int pid, char **cmd);
 
 void		ft_error(t_pipe *info, const char *message, int flag_nb);
 void		ft_clean(t_pipe *info);
-void		ft_error_paths(t_pipe *info);
 void		ft_free_array(char **res);
 
 #endif

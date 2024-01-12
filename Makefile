@@ -6,7 +6,7 @@
 #    By: deordone <deordone@student.42barcel>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/09 16:08:11 by deordone          #+#    #+#              #
-#    Updated: 2024/01/09 18:00:01 by deordone         ###   ########.fr        #
+#    Updated: 2024/01/12 18:16:20 by carmeno          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
  
@@ -32,7 +32,7 @@ LIBFT = $(LIBFT_PATH)/libft.a
 PRINTF = $(PRINTF_PATH)/libftprintf.a
 
 HEADER = $(INCLUDE_PATH)/pipex.h
-SOURCES = pipex.c ft_utils.c ft_errors.c
+SOURCES = pipex.c ft_utils.c ft_errors.c ft_access.c
 
 # ╔══════════════════════════════════════════════════════════════════════════╗ #  
 #                               OBJECTS                                        #

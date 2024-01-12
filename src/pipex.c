@@ -6,7 +6,7 @@
 /*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/16 12:29:46 by deordone          #+#    #+#             */
-/*   Updated: 2024/01/11 17:34:33 by deordone         ###   ########.fr       */
+/*   Updated: 2024/01/12 16:53:07 by carmeno          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	ft_init_info(t_pipe *info, char **argv, int argc)
 
 void	ft_extractor(char **argv, t_pipe *info, char *envp[])
 {
-	int	i;
+	int i;
 
 	info->f_fd = open(info->f_file, O_RDONLY);
 	if (info->f_fd == -1)
@@ -69,9 +69,6 @@ void	ft_extractor(char **argv, t_pipe *info, char *envp[])
 
 void	ft_parse_vortex(int argc, char **argv, t_pipe *info, char *envp[])
 {
-	int	i;
-
-	i = 0;
 	ft_init_info(info, argv, argc);
 	ft_extractor(argv, info, envp);
 	if (ft_handle_access(info) == 1)
