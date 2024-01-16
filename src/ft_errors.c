@@ -6,7 +6,7 @@
 /*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/22 16:30:08 by deordone          #+#    #+#             */
-/*   Updated: 2024/01/16 11:36:47 by deordone         ###   ########.fr       */
+/*   Updated: 2024/01/16 11:44:35 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,10 @@ void	ft_clean(t_pipe *info)
 	if (info->out_path != NULL)
 		free(info->out_path);
 	if (info->paths != NULL)
+	{
+		info->paths[0] -= 5;
 		ft_free_array(info->paths);
+	}
 	exit(EXIT_FAILURE);
 }
 

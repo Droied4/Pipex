@@ -6,7 +6,7 @@
 /*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/22 16:30:23 by deordone          #+#    #+#             */
-/*   Updated: 2024/01/16 11:36:28 by deordone         ###   ########.fr       */
+/*   Updated: 2024/01/16 11:44:40 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,6 @@ static void	ft_child(t_pipe *info, int *pipefd)
 	if (dup2(pipefd[1], STDOUT_FILENO) == -1)
 		ft_error(info, "dup2 child failed", 4);
 	close(pipefd[1]);
-	dprintf(2, "inpath -> %s\n", info->in_path);
-	dprintf(2, "incmd -> %s\n", info->in_cmd[0]);
-	dprintf(2, "incmd -> %s\n", info->in_cmd[1]);
 	if (execve(info->in_path, info->in_cmd, NULL) < 0)
 		ft_error(info, "execve child failed", 4);
 	else
@@ -38,10 +35,6 @@ static void	ft_parent(t_pipe *info, int *pipefd)
 	if (dup2(pipefd[0], STDIN_FILENO) == -1)
 		ft_error(info, "dup parent failed", 4);
 	close(pipefd[0]);
-	//char *cmd[] = { "./a.out", NULL };
-    //char *env[] = { NULL };
-
-    // Reemplaza el segundo argumento de execve con la ubicación de tu programa
 	if (execve(info->out_path, info->out_cmd, NULL) < 0)
 		ft_error(info, "execve parent failed", 4);
 	else

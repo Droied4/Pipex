@@ -6,7 +6,7 @@
 #    By: deordone <deordone@student.42barcel>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/09 16:08:11 by deordone          #+#    #+#              #
-#    Updated: 2024/01/16 10:06:13 by deordone         ###   ########.fr        #
+#    Updated: 2024/01/16 11:45:22 by deordone         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
  
@@ -15,7 +15,7 @@
 # ╚══════════════════════════════════════════════════════════════════════════╝ #  
 NAME        = pipex
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -I $(INCLUDE_PATH) -g #-fsanitize=address -fno-omit-frame-pointer #-MMD -MF $(@:.o=.d) 
+CFLAGS = -Wall -Wextra -Werror -I $(INCLUDE_PATH) -MMD -MF $(@:.o=.d) 
 
 # ╔══════════════════════════════════════════════════════════════════════════╗ #  
 #                               SOURCES                                        #
