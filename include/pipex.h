@@ -6,7 +6,7 @@
 /*   By: carmeno <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/13 03:08:12 by carmeno           #+#    #+#             */
-/*   Updated: 2024/01/12 21:08:54 by carmeno          ###   ########.fr       */
+/*   Updated: 2024/01/16 10:09:42 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ typedef struct s_pipe
    ╚═══════════════════════════════════════════════════════╝	*/
 
 /*void		ft_print_info(t_pipe *info);*/
-void		ft_update_pacmd(char **path, char **cmd, char comp);
+void		ft_update_pacmd(char **path, char ***cmd, char comp);
 void		ft_init_info(t_pipe *info, char **argv, int argc);
 void		ft_extractor(char **argv, t_pipe *info, char *envp[]);
 void		ft_parse_vortex(int argc, char **argv, t_pipe *info, char *envp[]);

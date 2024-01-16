@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_access.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: carmeno <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/12 18:04:21 by carmeno           #+#    #+#             */
-/*   Updated: 2024/01/12 19:59:45 by carmeno          ###   ########.fr       */
+/*   Created: 2024/01/15 17:15:49 by deordone          #+#    #+#             */
+/*   Updated: 2024/01/16 11:37:49 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,12 +61,12 @@ static int	parent_process(t_pipe *info, int pid)
 	waitpid(0, &parent_aux, 0);
 	if (WIFEXITED(parent_aux))
 		exit_status = WEXITSTATUS(parent_aux);
-	if (exit_status == 3)//si salio bien lo actualizamos
+	if (exit_status == 3)
 		ft_aux_taster(info, 0, 0, info->in_cmd);
 	if (ft_strncmp(info->out_cmd[0], ".", 1) == 0)
 		parent_aux = ft_file_taster(info->out_cmd[0]);
-	if (parent_aux == 3 && exit_status == 3)//si el padre salio bien con el . devolvemos
-		return (parent_aux); 
+	if (parent_aux == 3 && exit_status == 3)
+		return (parent_aux);
 	else if (parent_aux != 3)
 		parent_aux = ft_aux_taster(info, parent_aux, pid, info->out_cmd);
 	return (parent_aux);
@@ -94,6 +94,7 @@ int	ft_handle_access(t_pipe *info)
 	int	pid;
 	int	rslt;
 
+	rslt = 0;
 	pid = fork();
 	if (pid == -1)
 		ft_error(info, "fork failed", 4);

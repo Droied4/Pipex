@@ -6,7 +6,7 @@
 /*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/22 16:30:08 by deordone          #+#    #+#             */
-/*   Updated: 2024/01/12 19:25:16 by carmeno          ###   ########.fr       */
+/*   Updated: 2024/01/16 11:36:47 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,15 @@ void	ft_free_array(char **res)
 	int	i;
 
 	i = 0;
-	while (res[i])
-		i++;
-	while (--i)
+	if (res)
+	{
+		while (res[i])
+			i++;
+		while (--i)
+			free(res[i]);
 		free(res[i]);
-	free(res[i]);
-	free(res);
+		free(res);
+	}
 }
 
 void	ft_clean(t_pipe *info)
@@ -58,27 +61,18 @@ void	ft_error(t_pipe *info, const char *message, int flag_nb)
 	else if (flag_nb == 5)
 	{
 		if (ft_strncmp(info->in_cmd[0], ".", 1) != 0)
-		{
 			if (access(info->in_cmd[0], F_OK) != 0)
-			{
 				if (!info->in_path)
 					ft_printf("pipex: command not found: %s\n",
 						info->in_cmd[0]);
-			}
-		}
 		if (ft_strncmp(info->out_cmd[0], ".", 1) != 0)
-		{
 			if (access(info->out_cmd[0], F_OK) != 0)
-			{
 				if (!info->out_path)
 					ft_printf("pipex: command not found: %s\n",
 						info->out_cmd[0]);
-			}
-		}
 	}
 	ft_clean(info);
 }
-
 /*
  * 2 = file errors
  * 3 = just clean
