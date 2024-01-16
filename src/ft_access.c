@@ -6,7 +6,7 @@
 /*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 17:15:49 by deordone          #+#    #+#             */
-/*   Updated: 2024/01/16 11:44:42 by deordone         ###   ########.fr       */
+/*   Updated: 2024/01/16 12:03:59 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,12 @@ static int	ft_file_taster(char *cmd)
 		return (3);
 	else if ((access(cmd, F_OK)) == 0)
 	{
-		ft_printf("pipex: permission denied: %s\n", cmd);
+		ft_dprintf(2, "pipex: permission denied: %s\n", cmd);
 		return (2);
 	}
 	else
 	{
-		ft_printf("pipex: no such file or directory: %s\n", cmd);
+		ft_dprintf(2, "pipex: no such file or directory: %s\n", cmd);
 		return (1);
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/16 12:29:46 by deordone          #+#    #+#             */
-/*   Updated: 2024/01/16 11:44:41 by deordone         ###   ########.fr       */
+/*   Updated: 2024/01/16 12:01:26 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,6 @@ void	ft_extractor(char **argv, t_pipe *info, char *envp[])
 		}
 	}
 	info->paths[0] += 5;
-	dprintf(2, "path -> %s\n", info->paths[0]);
 }
 
 void	ft_parse_vortex(int argc, char **argv, t_pipe *info, char *envp[])

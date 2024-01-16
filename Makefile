@@ -6,7 +6,7 @@
 #    By: deordone <deordone@student.42barcel>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/09 16:08:11 by deordone          #+#    #+#              #
-#    Updated: 2024/01/16 11:45:22 by deordone         ###   ########.fr        #
+#    Updated: 2024/01/16 11:56:46 by deordone         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
  
@@ -27,9 +27,11 @@ INCLUDE_PATH    = ./include
 LIBRARY_PATH	= ./library
 LIBFT_PATH	= $(LIBRARY_PATH)/libft
 PRINTF_PATH	= $(LIBRARY_PATH)/printf
+DPRINTF_PATH = $(LIBRARY_PATH)/dprintf
 
 LIBFT = $(LIBFT_PATH)/libft.a
 PRINTF = $(PRINTF_PATH)/libftprintf.a
+DPRINTF = $(DPRINTF_PATH)/libftdprintf.a
 
 HEADER = $(INCLUDE_PATH)/pipex.h
 SOURCES = pipex.c ft_utils.c ft_errors.c ft_access.c
@@ -60,7 +62,7 @@ NC=\033[0m # No color
 all: header $(NAME)
 
 -include $(DEPS)
-$(NAME): $(OBJECTS) $(LIBFT) $(PRINTF)
+$(NAME): $(OBJECTS) $(LIBFT) $(PRINTF) $(DPRINTF)
 	@printf "$(CYAN)$@ Compiled$(NC)\n";
 	@$(CC) $(CFLAGS) $^ -o $(NAME)
 
@@ -77,17 +79,23 @@ $(PRINTF) :
 	@printf "$(CYAN)Compiling $@$(NC)\n";
 	@make -C $(PRINTF_PATH) > /dev/null
 
+$(DPRINTF) :
+	@printf "$(CYAN)Compiling $@$(NC)\n";
+	@make -C $(DPRINTF_PATH) > /dev/null
+
 clean:
 	@printf "$(CYAN)Cleaning objects and libraries$(NC)\n";
 	@rm -rf $(OBJECTS_PATH) 
 	@make clean -C $(LIBFT_PATH) > /dev/null
 	@make clean -C $(PRINTF_PATH) > /dev/null
+	@make clean -C $(DPRINTF_PATH) > /dev/null
 
 fclean : clean
 	@printf "$(CYAN)Cleaning objects, libraries and executable$(NC)\n";
 	@rm -rf $(NAME)
 	@make fclean -C $(LIBFT_PATH) > /dev/null
 	@make fclean -C $(PRINTF_PATH) > /dev/null
+	@make fclean -C $(DPRINTF_PATH) > /dev/null
 
 re: fclean all 
 

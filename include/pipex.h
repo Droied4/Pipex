@@ -6,7 +6,7 @@
 /*   By: carmeno <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/13 03:08:12 by carmeno           #+#    #+#             */
-/*   Updated: 2024/01/16 10:09:42 by deordone         ###   ########.fr       */
+/*   Updated: 2024/01/16 11:57:33 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define PIPEX_H
 # include "../library/libft/libft.h"
 # include "../library/printf/ft_printf.h"
+# include "../library/dprintf/ft_dprintf.h"
 # include <errno.h>
 # include <fcntl.h>
 # include <stdio.h>
