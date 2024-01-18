@@ -6,7 +6,7 @@
 /*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/22 16:30:08 by deordone          #+#    #+#             */
-/*   Updated: 2024/01/18 18:51:13 by deordone         ###   ########.fr       */
+/*   Updated: 2024/01/18 19:18:57 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	ft_clean(t_pipe *info)
 	}
 }
 
-static void	ft_flag5(t_pipe *info)
+static int	ft_flag5(t_pipe *info)
 {
 	int	f;
 
@@ -65,32 +65,31 @@ static void	ft_flag5(t_pipe *info)
 				ft_dprintf(2, "pipex: command not found: %s\n",
 					info->out_cmd[0]);
 	if (f != 0)
-	{
-		ft_clean(info);
-		exit(127);
-	}
+		return (127);
+	return (0);
 }
 
 void	ft_error(t_pipe *info, const char *message, int flag_nb)
 {
+	int exit_out;
+
+	exit_out = 0;
 	if (flag_nb == 2)
-	{
-		if (access(info->f_file, F_OK))
-			ft_dprintf(2, "pipex: no such file or directory: %s\n", message);
-		else
-			ft_dprintf(2, "pipex: permission denied: %s\n", message);
-	}
+		ft_dprintf(2, "pipex: permission denied: %s\n", message);
 	else if (flag_nb == 4)
 		ft_dprintf(1, "pipex: %s\n", message);
 	else if (flag_nb == 5)
-		ft_flag5(info);
+		exit_out = ft_flag5(info);
 	else if (flag_nb == 6)
 	{
-		ft_dprintf(2, "pipex: command not found: %s\n", message);
-		exit(126);
+		if (info->f_fd != -1)
+			ft_dprintf(2, "pipex: command not found: %s\n", message);
+		exit_out = 126;
 	}
+	if (access(info->f_file, F_OK))
+		ft_dprintf(2, "pipex: no such file or directory: %s\n", info->f_file);
 	ft_clean(info);
-	exit(0);
+	exit(exit_out);
 }
 /*
  * 2 = file errors
