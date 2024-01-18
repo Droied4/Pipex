@@ -6,7 +6,7 @@
 /*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/22 16:30:23 by deordone          #+#    #+#             */
-/*   Updated: 2024/01/16 12:06:11 by deordone         ###   ########.fr       */
+/*   Updated: 2024/01/18 10:37:14 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,13 @@
 static void	ft_child(t_pipe *info, int *pipefd)
 {
 	if (dup2(info->f_fd, STDIN_FILENO) == -1)
-		ft_error(info, "dup2 child failed", 4);
+		ft_error(info, "dup2 child failed", 3);
 	close(pipefd[0]);
 	if (dup2(pipefd[1], STDOUT_FILENO) == -1)
-		ft_error(info, "dup2 child failed", 4);
+		ft_error(info, "dup2 child failed", 3);
 	close(pipefd[1]);
 	if (execve(info->in_path, info->in_cmd, NULL) < 0)
-		ft_error(info, "execve child failed", 4);
+		ft_error(info, "execve child failed", 3);
 	else
 		exit(EXIT_SUCCESS);
 }
@@ -29,14 +29,14 @@ static void	ft_child(t_pipe *info, int *pipefd)
 static void	ft_parent(t_pipe *info, int *pipefd)
 {
 	if (dup2(info->l_fd, STDOUT_FILENO) == -1)
-		ft_error(info, "dup parent failed", 4);
+		ft_error(info, "dup parent failed", 3);
 	close(info->l_fd);
 	close(pipefd[1]);
 	if (dup2(pipefd[0], STDIN_FILENO) == -1)
-		ft_error(info, "dup parent failed", 4);
+		ft_error(info, "dup parent failed", 3);
 	close(pipefd[0]);
 	if (execve(info->out_path, info->out_cmd, NULL) < 0)
-		ft_error(info, "execve parent failed", 4);
+		ft_error(info, "execve parent failed", 3);
 	else
 		exit(EXIT_SUCCESS);
 }
@@ -47,10 +47,10 @@ void	ft_vortex(t_pipe *info)
 	int	pid;
 
 	if (pipe(pipefd) == -1)
-		ft_error(info, "pipe failed", 4);
+		ft_error(info, "pipe failed", 3);
 	pid = fork();
 	if (pid == -1)
-		ft_error(info, "fork failed", 4);
+		ft_error(info, "fork failed", 3);
 	if (pid == 0)
 		ft_child(info, pipefd);
 	else

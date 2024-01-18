@@ -6,7 +6,7 @@
 /*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/22 16:30:08 by deordone          #+#    #+#             */
-/*   Updated: 2024/01/16 12:03:39 by deordone         ###   ########.fr       */
+/*   Updated: 2024/01/18 10:41:40 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,28 @@ void	ft_clean(t_pipe *info)
 		info->paths[0] -= 5;
 		ft_free_array(info->paths);
 	}
-	exit(EXIT_FAILURE);
+}
+
+static void	ft_flag5(t_pipe *info)
+{
+	int	f;
+
+	f = 0;
+	if (ft_strncmp(info->in_cmd[0], ".", 1) != 0)
+		if (access(info->in_cmd[0], F_OK) != 0)
+			if (!info->in_path && ++f != 0)
+				ft_dprintf(2, "pipex: command not found: %s\n",
+					info->in_cmd[0]);
+	if (ft_strncmp(info->out_cmd[0], ".", 1) != 0)
+		if (access(info->out_cmd[0], F_OK) != 0)
+			if (!info->out_path && ++f != 0)
+				ft_dprintf(2, "pipex: command not found: %s\n",
+					info->out_cmd[0]);
+	if (f != 0)
+	{
+		ft_clean(info);
+		exit(127);
+	}
 }
 
 void	ft_error(t_pipe *info, const char *message, int flag_nb)
@@ -60,21 +81,11 @@ void	ft_error(t_pipe *info, const char *message, int flag_nb)
 			ft_dprintf(2, "pipex: permission denied: %s\n", message);
 	}
 	else if (flag_nb == 4)
-		ft_dprintf(2, "pipex: %s\n", message);
+		ft_dprintf(1, "pipex: %s\n", message);
 	else if (flag_nb == 5)
-	{
-		if (ft_strncmp(info->in_cmd[0], ".", 1) != 0)
-			if (access(info->in_cmd[0], F_OK) != 0)
-				if (!info->in_path)
-					ft_dprintf(2, "pipex: command not found: %s\n",
-						info->in_cmd[0]);
-		if (ft_strncmp(info->out_cmd[0], ".", 1) != 0)
-			if (access(info->out_cmd[0], F_OK) != 0)
-				if (!info->out_path)
-					ft_dprintf(2, "pipex: command not found: %s\n",
-						info->out_cmd[0]);
-	}
+		ft_flag5(info);
 	ft_clean(info);
+	exit(0);
 }
 /*
  * 2 = file errors

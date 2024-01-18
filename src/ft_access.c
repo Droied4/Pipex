@@ -6,7 +6,7 @@
 /*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 17:15:49 by deordone          #+#    #+#             */
-/*   Updated: 2024/01/16 12:03:59 by deordone         ###   ########.fr       */
+/*   Updated: 2024/01/18 10:42:02 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ static int	parent_process(t_pipe *info, int pid)
 		ft_aux_taster(info, 0, 0, info->in_cmd);
 	if (ft_strncmp(info->out_cmd[0], ".", 1) == 0)
 		parent_aux = ft_file_taster(info->out_cmd[0]);
-	if (parent_aux == 3 && exit_status == 3)
+	if ((parent_aux == 3 && exit_status == 3) || parent_aux == 2)
 		return (parent_aux);
 	else if (parent_aux != 3)
 		parent_aux = ft_aux_taster(info, parent_aux, pid, info->out_cmd);
