@@ -6,7 +6,7 @@
 /*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/16 12:29:46 by deordone          #+#    #+#             */
-/*   Updated: 2024/01/18 10:43:47 by deordone         ###   ########.fr       */
+/*   Updated: 2024/01/18 18:50:39 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,10 +94,7 @@ void	ft_parse_vortex(int argc, char **argv, t_pipe *info, char *envp[])
 	if (handle == 1)
 		ft_error(info, "handle fail", 5);
 	if (handle == 2)
-	{
-		ft_clean(info);
-		exit(126);
-	}
+		ft_error(info, info->in_cmd[0], 6);
 	if (info->in_cmd[0][0] == '.')
 		ft_update_pacmd(&info->in_path, &info->in_cmd, info->in_cmd[0][0]);
 	if (info->out_cmd[0][0] == '.')

@@ -6,7 +6,7 @@
 /*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/22 16:30:08 by deordone          #+#    #+#             */
-/*   Updated: 2024/01/18 10:41:40 by deordone         ###   ########.fr       */
+/*   Updated: 2024/01/18 18:51:13 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,11 @@ void	ft_error(t_pipe *info, const char *message, int flag_nb)
 		ft_dprintf(1, "pipex: %s\n", message);
 	else if (flag_nb == 5)
 		ft_flag5(info);
+	else if (flag_nb == 6)
+	{
+		ft_dprintf(2, "pipex: command not found: %s\n", message);
+		exit(126);
+	}
 	ft_clean(info);
 	exit(0);
 }
