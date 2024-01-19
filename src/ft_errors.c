@@ -6,7 +6,7 @@
 /*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/22 16:30:08 by deordone          #+#    #+#             */
-/*   Updated: 2024/01/18 19:18:57 by deordone         ###   ########.fr       */
+/*   Updated: 2024/01/18 19:21:05 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ static int	ft_flag5(t_pipe *info)
 
 void	ft_error(t_pipe *info, const char *message, int flag_nb)
 {
-	int exit_out;
+	int	exit_out;
 
 	exit_out = 0;
 	if (flag_nb == 2)
