@@ -6,7 +6,7 @@
 /*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/16 12:29:46 by deordone          #+#    #+#             */
-/*   Updated: 2024/01/19 12:38:08 by deordone         ###   ########.fr       */
+/*   Updated: 2024/01/22 13:42:00 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,10 +105,10 @@ int	main(int argc, char **argv, char *envp[])
 {
 	t_pipe	info;
 
-	if (argc == 4) 
+	if (argc != 5) 
 	{
-		write(1, "incorrect number of arguments\n", 30);
-		return (1);
+		write(2, "pipex: incorrect number of arguments\n", 37);
+		return (0);
 	}
 	ft_parse_vortex(argc, argv, &info, envp);
 	ft_vortex(&info);
