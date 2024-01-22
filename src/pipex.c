@@ -6,7 +6,7 @@
 /*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/16 12:29:46 by deordone          #+#    #+#             */
-/*   Updated: 2024/01/22 13:42:00 by deordone         ###   ########.fr       */
+/*   Updated: 2024/01/22 13:49:36 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 /* auxiliar
 void	ft_print_info(t_pipe *info)
 {
+	char	*pos;
+
 	ft_printf("\033[1;31mInfo t_pipe\033[0m\n");
 	ft_printf("f_file -> %s\n", info->f_file);
 	ft_printf("l_file -> %s\n", info->l_file);
@@ -105,7 +107,7 @@ int	main(int argc, char **argv, char *envp[])
 {
 	t_pipe	info;
 
-	if (argc != 5) 
+	if (argc != 5)
 	{
 		write(2, "pipex: incorrect number of arguments\n", 37);
 		return (0);
