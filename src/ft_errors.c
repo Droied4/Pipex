@@ -6,7 +6,7 @@
 /*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/22 16:30:08 by deordone          #+#    #+#             */
-/*   Updated: 2024/01/25 17:43:36 by deordone         ###   ########.fr       */
+/*   Updated: 2024/01/25 18:52:40 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,14 @@ void	ft_free_array(char **res)
 	i = 0;
 	if (res)
 	{
-		while (res[i])
-			i++;
-		while (--i)
+		if (*res)
+		{
+			while (res[i])
+				i++;
+			while (--i)
+				free(res[i]);
 			free(res[i]);
-		free(res[i]);
+		}
 		free(res);
 	}
 }
@@ -54,12 +57,12 @@ static int	ft_flag5(t_pipe *info, int flag_input, int flag_nb)
 	int	f;
 
 	f = 0;
-	if (access(info->out_cmd[0], X_OK) != 0)
+	if (access(info->out_cmd[0], X_OK) != 0 && info->out_cmd[0])
 		if ((!info->out_path && info->out_cmd[0][0] != '.') && ++f == 1)
 			ft_dprintf(2, "pipex: command not found: %s\n", info->out_cmd[0]);
 	if (flag_input == 0)
-		if (access(info->in_cmd[0], X_OK) != 0)
-			if ((!info->in_path && info->in_cmd[0][0] != '.') && (++f == 2
+		if (access(info->in_cmd[0], X_OK) != 0 && info->in_cmd[0])
+			if ((!info->in_path && info->in_cmd[0][0] != '.') && (++f >= 1
 					|| flag_nb == 6))
 				ft_dprintf(2, "pipex: command not found: %s\n",
 					info->in_cmd[0]);

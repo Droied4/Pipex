@@ -6,7 +6,7 @@
 /*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 17:15:49 by deordone          #+#    #+#             */
-/*   Updated: 2024/01/25 17:42:46 by deordone         ###   ########.fr       */
+/*   Updated: 2024/01/25 18:52:42 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,8 +105,17 @@ int	ft_handle_access(t_pipe *info)
 	if (pid == -1)
 		ft_error(info, "fork failed", 4);
 	if (pid == 0)
-		child_process(info, pid);
+	{
+		if (info->in_cmd[0])
+			child_process(info, pid);
+		exit(1);
+	}
 	else
-		rslt = parent_process(info, pid);
+	{
+		if (info->out_cmd[0])
+			rslt = parent_process(info, pid);
+		else
+			rslt = 1;
+	}
 	return (rslt);
 }
