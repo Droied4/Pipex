@@ -6,23 +6,29 @@
 /*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 17:15:49 by deordone          #+#    #+#             */
-/*   Updated: 2024/01/25 13:59:16 by deordone         ###   ########.fr       */
+/*   Updated: 2024/01/25 17:42:46 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-static int	ft_file_taster(char *cmd)
+static int	ft_file_taster(t_pipe *info, char *cmd, int fd)
 {
 	if ((access(cmd, X_OK | F_OK)) == 0)
 		return (3);
 	else if ((access(cmd, F_OK)) == 0)
 	{
+		if (fd == 0)
+			if (info->f_fd == -1)
+				return (2);
 		ft_dprintf(2, "pipex: permission denied: %s\n", cmd);
 		return (2);
 	}
 	else
 	{
+		if (fd == 0)
+			if (info->f_fd == -1)
+				return (1);
 		ft_dprintf(2, "pipex: no such file or directory: %s\n", cmd);
 		return (1);
 	}
@@ -64,7 +70,7 @@ static int	parent_process(t_pipe *info, int pid)
 	if (exit_status == 3)
 		ft_aux_taster(info, 0, 0, info->in_cmd);
 	if (ft_strncmp(info->out_cmd[0], ".", 1) == 0)
-		parent_aux = ft_file_taster(info->out_cmd[0]);
+		parent_aux = ft_file_taster(info, info->out_cmd[0], pid);
 	if ((parent_aux == 3 && exit_status == 3) || parent_aux == 2)
 		return (parent_aux);
 	else if (parent_aux != 3)
@@ -78,7 +84,7 @@ static void	child_process(t_pipe *info, int pid)
 
 	child_aux = 0;
 	if (ft_strncmp(info->in_cmd[0], ".", 1) == 0)
-		child_aux = ft_file_taster(info->in_cmd[0]);
+		child_aux = ft_file_taster(info, info->in_cmd[0], pid);
 	if (child_aux == 3 || child_aux == 2)
 		exit(child_aux);
 	else

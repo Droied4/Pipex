@@ -6,7 +6,7 @@
 /*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/22 16:30:23 by deordone          #+#    #+#             */
-/*   Updated: 2024/01/25 14:00:06 by deordone         ###   ########.fr       */
+/*   Updated: 2024/01/25 17:33:34 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static void	ft_child(t_pipe *info, int *pipefd)
 		ft_error(info, "dup2 child failed", 3);
 	close(pipefd[1]);
 	if (execve(info->in_path, info->in_cmd, NULL) < 0)
-		ft_error(info, "execve child failed", 3);
+		ft_error(info, info->in_cmd[0], 7);
 	else
 		exit(EXIT_SUCCESS);
 }
@@ -36,7 +36,7 @@ static void	ft_parent(t_pipe *info, int *pipefd)
 		ft_error(info, "dup parent failed", 3);
 	close(pipefd[0]);
 	if (execve(info->out_path, info->out_cmd, NULL) < 0)
-		ft_error(info, "execve parent failed", 3);
+		ft_error(info, "execve parent failed", 7);
 	else
 		exit(EXIT_SUCCESS);
 }
