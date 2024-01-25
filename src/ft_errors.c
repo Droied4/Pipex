@@ -6,7 +6,7 @@
 /*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/22 16:30:08 by deordone          #+#    #+#             */
-/*   Updated: 2024/01/25 17:35:56 by deordone         ###   ########.fr       */
+/*   Updated: 2024/01/25 17:43:36 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,8 @@ static int	ft_flag5(t_pipe *info, int flag_input, int flag_nb)
 			ft_dprintf(2, "pipex: command not found: %s\n", info->out_cmd[0]);
 	if (flag_input == 0)
 		if (access(info->in_cmd[0], X_OK) != 0)
-			if ((!info->in_path && info->in_cmd[0][0] != '.') && (++f == 2 || flag_nb == 6))
+			if ((!info->in_path && info->in_cmd[0][0] != '.') && (++f == 2
+					|| flag_nb == 6))
 				ft_dprintf(2, "pipex: command not found: %s\n",
 					info->in_cmd[0]);
 	if (f != 0)
