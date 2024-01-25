@@ -6,7 +6,7 @@
 /*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/22 16:30:08 by deordone          #+#    #+#             */
-/*   Updated: 2024/01/19 11:43:11 by deordone         ###   ########.fr       */
+/*   Updated: 2024/01/25 13:59:52 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,8 +86,6 @@ void	ft_error(t_pipe *info, const char *message, int flag_nb)
 			ft_dprintf(2, "pipex: command not found: %s\n", message);
 		exit_out = 126;
 	}
-	if (access(info->f_file, F_OK))
-		ft_dprintf(2, "pipex: no such file or directory: %s\n", info->f_file);
 	ft_clean(info);
 	exit(exit_out);
 }

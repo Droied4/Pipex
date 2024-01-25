@@ -6,7 +6,7 @@
 /*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/16 12:29:46 by deordone          #+#    #+#             */
-/*   Updated: 2024/01/22 13:49:36 by deordone         ###   ########.fr       */
+/*   Updated: 2024/01/25 14:00:57 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,8 @@ void	ft_extractor(char **argv, t_pipe *info, char *envp[])
 	int	i;
 
 	info->f_fd = open(info->f_file, O_RDONLY);
+	if (info->f_fd == -1)
+		ft_dprintf(2, "pipex: no such file or directory: %s\n", info->f_file);
 	info->l_fd = open(info->l_file, O_WRONLY | O_CREAT | O_TRUNC,
 			S_IRUSR | S_IWUSR);
 	if (info->l_fd == -1)
