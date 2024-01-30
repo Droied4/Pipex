@@ -6,7 +6,7 @@
 /*   By: deordone <deordone@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/22 16:30:23 by deordone          #+#    #+#             */
-/*   Updated: 2024/01/25 18:47:03 by deordone         ###   ########.fr       */
+/*   Updated: 2024/01/30 16:06:44 by deordone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,9 +52,22 @@ void	ft_vortex(t_pipe *info)
 	if (pid == -1)
 		ft_error(info, "fork failed", 3);
 	if (pid == 0)
-		ft_child(info, pipefd);
+	{
+		if (info->in_cmd[0] && info->in_path)
+			ft_child(info, pipefd);
+		else
+			ft_error(info, "command not found", 5);
+	}
 	else
-		ft_parent(info, pipefd);
+	{
+		if (info->out_cmd[0])
+			ft_parent(info, pipefd);
+		else
+		{
+			ft_clean(info);
+			exit(126);
+		}
+	}
 }
 
 static char	*ft_aux_check(char *new_path, char *new_cmd)
